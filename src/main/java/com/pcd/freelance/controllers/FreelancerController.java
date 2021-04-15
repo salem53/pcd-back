@@ -1,5 +1,6 @@
 package com.pcd.freelance.controllers;
 
+import com.pcd.freelance.encryptDecrypt.AES;
 import com.pcd.freelance.entities.Freelancer;
 import com.pcd.freelance.exception.ResourceNotFoundException;
 import com.pcd.freelance.repositories.FreelancerRepository;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -27,6 +29,8 @@ public class FreelancerController {
     //add freelancer
     @PostMapping("/add")
     public Freelancer createFreelancer(@Valid @RequestBody Freelancer freelancer) {
+        freelancer.setPassword(AES.encrypt(freelancer.getPassword(),AES.getPersonalkey()));
+        freelancer.setInscriptionDate(new Date());
         return freelancerRepository.save(freelancer);
     }
 
@@ -47,8 +51,10 @@ public class FreelancerController {
     //get freelancer by email
 
     @GetMapping("/getFreelancerByEmail/{freelancerEmail}")
-    public java.util.Optional<Freelancer> getFreelancerByEmail(@PathVariable String freelancerEmail) {
-        return freelancerRepository.findByEmail(freelancerEmail);
+    public Freelancer getFreelancerByEmail(@PathVariable String freelancerEmail) {
+        Freelancer freelancer = freelancerRepository.findByEmail(freelancerEmail).get();
+        freelancer.setPassword(AES.decrypt(freelancer.getPassword(),AES.getPersonalkey()));
+        return freelancer;
     }
 
     // update freelancer
@@ -59,6 +65,13 @@ public class FreelancerController {
             freelancer.setFirstName(freelancerRequest.getFirstName());
             freelancer.setLastName(freelancerRequest.getLastName());
             freelancer.setEmail(freelancerRequest.getEmail());
+            freelancer.setAdress(freelancerRequest.getAdress());
+            freelancer.setBirthday(freelancerRequest.getBirthday());
+            freelancer.setSexe(freelancerRequest.getSexe());
+            freelancer.setTelephoneNumber(freelancerRequest.getTelephoneNumber());
+            freelancer.setJob(freelancerRequest.getJob());
+            freelancer.setDescription(freelancerRequest.getDescription());
+            freelancer.setEarning(freelancerRequest.getEarning());
             return freelancerRepository.save(freelancer);
         }).orElseThrow(() -> new ResourceNotFoundException("FreelancerId " + freelancerId + " not found"));
     }

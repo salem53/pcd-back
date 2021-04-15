@@ -1,10 +1,15 @@
 package com.pcd.freelance.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
+@Data
 @Entity
 @Table(name ="client",uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class Client {
@@ -30,79 +35,56 @@ public class Client {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-    @NotNull
-    @AssertTrue
-    @Column(name ="terms_conditions")
-    private boolean terms_conditions ;
+    @Column(name ="address")
+    private String adress;
+
+    @Column(name ="sexe")
+    private String sexe;
+
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern="dd-MM-yyyy")
+    private Date birthday;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+    private Date inscriptionDate;
+
+    private double rating;
+
+    private String telephoneNumber;
+
+    private String job;
+
+    private String description;
+
+
+    private long nationalityId;
+    private long imageId;
 
     public Client() {
     }
 
-    public Client(@NotBlank(message = "First Name is mandatory") String firstName, @NotBlank(message = "Last Name is mandatory") String lastName, @NotBlank(message = "Email is mandatory") String email, @NotBlank(message = "Password is mandatory") String password, @NotNull @AssertTrue boolean terms_conditions) {
+    public Client(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.terms_conditions = terms_conditions;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
+    public Client(String firstName, String lastName, String email, String password, String adress, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, long nationalityId, long imageId) {
         this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isTerms_conditions() {
-        return terms_conditions;
-    }
-
-    public void setTerms_conditions(boolean terms_conditions) {
-        this.terms_conditions = terms_conditions;
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", terms_conditions=" + terms_conditions +
-                '}';
+        this.adress = adress;
+        this.sexe = sexe;
+        this.birthday = birthday;
+        this.inscriptionDate = inscriptionDate;
+        this.rating = rating;
+        this.telephoneNumber = telephoneNumber;
+        this.job = job;
+        this.description = description;
+        this.nationalityId = nationalityId;
+        this.imageId = imageId;
     }
 }
