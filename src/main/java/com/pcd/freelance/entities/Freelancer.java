@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -36,7 +34,7 @@ public class Freelancer {
     private String password;
 
     @Column(name ="address")
-    private String adress;
+    private String address;
 
     @Column(name ="sexe")
     private String sexe;
@@ -59,7 +57,7 @@ public class Freelancer {
 
     private double earning;
 
-    private long nationalityId;
+    private String nationality;
     private long imageId;
 
     public Freelancer() {
@@ -72,12 +70,12 @@ public class Freelancer {
         this.password = password;
     }
 
-    public Freelancer(String firstName, String lastName, String email, String password, String adress, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, double earning, long nationalityId, long imageId) {
+    public Freelancer(String firstName, String lastName, String email, String password, String address, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, double earning, String nationality, long imageId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.adress = adress;
+        this.address = address;
         this.sexe = sexe;
         this.birthday = birthday;
         this.inscriptionDate = inscriptionDate;
@@ -86,7 +84,7 @@ public class Freelancer {
         this.job = job;
         this.description = description;
         this.earning = earning;
-        this.nationalityId = nationalityId;
+        this.nationality = nationality;
         this.imageId = imageId;
     }
 
@@ -98,7 +96,7 @@ public class Freelancer {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", adress='" + adress + '\'' +
+                ", adress='" + address + '\'' +
                 ", sexe='" + sexe + '\'' +
                 ", birthday=" + birthday +
                 ", inscriptionDate=" + inscriptionDate +
@@ -107,7 +105,7 @@ public class Freelancer {
                 ", job='" + job + '\'' +
                 ", description='" + description + '\'' +
                 ", earning=" + earning +
-                ", nationalityId=" + nationalityId +
+                ", nationalityId=" + nationality +
                 '}';
     }
 }
