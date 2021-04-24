@@ -1,5 +1,6 @@
 package com.pcd.freelance.controllers;
 
+import com.pcd.freelance.encryptDecrypt.AES;
 import com.pcd.freelance.entities.Client;
 import com.pcd.freelance.entities.Freelancer;
 import com.pcd.freelance.exception.ResourceNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,6 +29,8 @@ public class ClientController {
     //add client
     @PostMapping("/add")
     public Client createClient(@Valid @RequestBody Client client) {
+        client.setPassword(AES.encrypt(client.getPassword(),AES.getPersonalkey()));
+        client.setInscriptionDate(new Date());
         return clientRepository.save(client);
     }
 
@@ -47,8 +51,10 @@ public class ClientController {
     //get client by email
 
     @GetMapping("/getClientByEmail/{clientEmail}")
-    public java.util.Optional<Client> getClientByEmail(@PathVariable String clientEmail) {
-        return clientRepository.findByEmail(clientEmail);
+    public Client getClientByEmail(@PathVariable String clientEmail) {
+        Client client = clientRepository.findByEmail(clientEmail).get();
+        client.setPassword(AES.decrypt(client.getPassword(),AES.getPersonalkey()));
+        return client ;
     }
 
     // update client
@@ -59,6 +65,11 @@ public class ClientController {
             client.setFirstName(clientRequest.getFirstName());
             client.setLastName(clientRequest.getLastName());
             client.setEmail(clientRequest.getEmail());
+            client.setAdress(clientRequest.getAdress());
+            client.setBirthday(clientRequest.getBirthday());
+            client.setSexe(clientRequest.getSexe());
+            client.setTelephoneNumber(clientRequest.getTelephoneNumber());
+            client.setJob(clientRequest.getJob());
             return clientRepository.save(client);
         }).orElseThrow(() -> new ResourceNotFoundException("ClientId " + ClientId + " not found"));
     }

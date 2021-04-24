@@ -1,5 +1,6 @@
 package com.pcd.freelance.controllers;
 
+import com.pcd.freelance.encryptDecrypt.AES;
 import com.pcd.freelance.entities.Admin;
 import com.pcd.freelance.entities.Freelancer;
 import com.pcd.freelance.exception.ResourceNotFoundException;
@@ -26,6 +27,7 @@ public class AdminController {
     //add admin
     @PostMapping("/add")
     public Admin createAdmin(@Valid @RequestBody Admin admin) {
+        admin.setPassword(AES.encrypt(admin.getPassword(),AES.getPersonalkey()));
         return adminRepository.save(admin);
     }
 
@@ -40,13 +42,16 @@ public class AdminController {
 
     @GetMapping("/{adminId}")
     public java.util.Optional<Admin> getFreelancer(@PathVariable Long adminId) {
+
         return  adminRepository.findById(adminId);
     }
     //get admin by email
 
     @GetMapping("/getAdminByEmail/{adminEmail}")
-    public java.util.Optional<Admin> getAdminByEmail(@PathVariable String adminEmail) {
-        return adminRepository.findByEmail(adminEmail);
+    public Admin getAdminByEmail(@PathVariable String adminEmail) {
+        Admin admin = adminRepository.findByEmail(adminEmail).get();
+        admin.setPassword(AES.decrypt(admin.getPassword(),AES.getPersonalkey()));
+        return admin;
     }
     // update admin
 
