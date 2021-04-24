@@ -1,19 +1,24 @@
 package com.pcd.freelance.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name ="freelancer",uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class Freelancer {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="id")
     private long id;
-    
+
     @Column(name ="firstName")
     @NotBlank(message = "First Name is mandatory")
     private String firstName;
@@ -35,6 +40,9 @@ public class Freelancer {
     @Column(name ="terms_conditions")
     private boolean terms_conditions ;
 
+    @OneToMany(mappedBy="freelancer")
+    @JsonIgnore
+    Set<Skilled> skilled ;
 
     public Freelancer() {
     }
@@ -106,4 +114,6 @@ public class Freelancer {
     public void setTerms_conditions(boolean terms_conditions) {
         this.terms_conditions = terms_conditions;
     }
+
+
 }
