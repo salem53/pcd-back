@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -58,7 +56,7 @@ public class Client {
     private String description;
 
 
-    private long nationalityId;
+    private String nationality;
     private long imageId;
 
     public Client() {
@@ -71,7 +69,7 @@ public class Client {
         this.password = password;
     }
 
-    public Client(String firstName, String lastName, String email, String password, String adress, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, long nationalityId, long imageId) {
+    public Client(String firstName, String lastName, String email, String password, String adress, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, String nationality, long imageId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -84,7 +82,7 @@ public class Client {
         this.telephoneNumber = telephoneNumber;
         this.job = job;
         this.description = description;
-        this.nationalityId = nationalityId;
+        this.nationality = nationality;
         this.imageId = imageId;
     }
 }
