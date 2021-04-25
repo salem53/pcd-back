@@ -8,6 +8,8 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -61,6 +63,21 @@ public class Freelancer {
 
     private long nationalityId;
     private long imageId;
+
+
+
+    //l'association avec experience
+    @OneToMany(mappedBy = "freelancer")
+    private Set<HavingExperience> experiences; //= new HashSet<HavingExperience>();
+
+    public Set<HavingExperience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(Set<HavingExperience> experiences) {
+        this.experiences = experiences;
+    }
+
 
     public Freelancer() {
     }
