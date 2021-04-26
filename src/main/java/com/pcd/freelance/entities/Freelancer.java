@@ -64,7 +64,16 @@ public class Freelancer {
     private long nationalityId;
     private long imageId;
 
+    @OneToMany(mappedBy = "freelancer")
+    Set<Mission> missions;
 
+    public Set<Mission> getMissions() {
+        return missions;
+    }
+
+    public void setMissions(Set<Mission> missions) {
+        this.missions = missions;
+    }
 
     //l'association avec experience
     @OneToMany(mappedBy = "freelancer")
@@ -80,6 +89,10 @@ public class Freelancer {
 
 
     public Freelancer() {
+    }
+
+    public Freelancer(long id) {
+        this.id = id;
     }
 
     public Freelancer(String firstName, String lastName, String email, String password) {

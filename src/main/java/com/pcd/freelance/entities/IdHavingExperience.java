@@ -10,29 +10,8 @@ import java.util.Objects;
 @Embeddable
 public class IdHavingExperience implements Serializable
 {
-   // private static final long serialVersionUID = 1L;
-//    @ManyToOne
-//    @JoinColumn(name = "Freelancer")
-//    Freelancer freelancer;
-//    @ManyToOne
-//    @JoinColumn(name = "Experience")
-//    Experience experience;
-//
-//    public Freelancer getFreelancer() {
-//        return freelancer;
-//    }
-//
-//    public void setFreelancer(Freelancer freelancer) {
-//        this.freelancer = freelancer;
-//    }
-//
-//    public Experience getExperience() {
-//        return experience;
-//    }
-//
-//    public void setExperience(Experience experience) {
-//        this.experience = experience;
-//    }
+
+
 
     @Column(name = "freelancer_id")
     Long idFreelancer;
@@ -48,6 +27,9 @@ public class IdHavingExperience implements Serializable
         this.idExperience = idExperience;
     }
 
+    public IdHavingExperience(Long idFreelancer) {
+        this.idFreelancer = idFreelancer;
+    }
     public Long getIdFreelancer() {
         return idFreelancer;
     }

@@ -39,14 +39,16 @@ public class Experience {
         return company;
     }
 
-
-
-   /* public Experience(long id, String positionTitle, String company) {
+    public Experience(long id) {
         this.id = id;
-        this.positionTitle = positionTitle;
-        this.company = company;
     }
-*/
+
+    /* public Experience(long id, String positionTitle, String company) {
+            this.id = id;
+            this.positionTitle = positionTitle;
+            this.company = company;
+        }
+    */
     public void setCompany(String company) {
         this.company = company;
     }

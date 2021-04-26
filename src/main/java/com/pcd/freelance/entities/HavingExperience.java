@@ -11,10 +11,21 @@ import java.util.Date;
 @Entity
 @Table(name="HavingExperience")
 public class HavingExperience {
-//    @Id
+    public HavingExperience(Freelancer freelancer, Experience experience) {
+        this.freelancer = freelancer;
+        this.experience = experience;
+    }
+
+    public HavingExperience(IdHavingExperience idHavingExperience, Freelancer freelancer, Experience experience) {
+        this.idHavingExperience = idHavingExperience;
+        this.freelancer = freelancer;
+        this.experience = experience;
+    }
+
+    //    @Id
 //    private IdHavingExperience idHavingExperience;
     @EmbeddedId
-    private IdHavingExperience idHavingExperience=new IdHavingExperience(1L,1L);
+    private IdHavingExperience idHavingExperience;
 
     @ManyToOne
     @MapsId("idFreelancer")

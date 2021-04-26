@@ -72,6 +72,23 @@ public class HavingExperienceController {
             return HExperienceRepository.save(havingExperience);
         }).orElseThrow(() -> new ResourceNotFoundException("Freelancer with Id= " + freelancerId + " not found or experience with id= "+experienceId+" not found "));
     }
+    @PostMapping("/addHavingExperience")
+    public HavingExperience createExperience(@Valid @RequestBody HavingExperience havingExperience )
+    {
+
+//        Optional<Freelancer> f= fr.findById(freelancerId);
+//        Optional<Experience> e=er.findById(experienceId);
+//        Hexperience.setExperience(e.get());
+//        Hexperience.setFreelancer(f.get());
+        // Hexperience.setIdHavingExperience(new IdHavingExperience(freelancerId,experienceId));
+        //   return HExperienceRepository.save(Hexperience);
+       /* Freelancer f=fr.getAFreelancer(freelancerId).get();
+        Experience e=ex.getAnExp(experienceId).get();
+        */
+
+    //  HavingExperience h=new HavingExperience(new IdHavingExperience(freelancerId,experienceId),n.getDescription(),n.getJobType(),n.getBeginingDate(),n.getEndingDate());
+        return HExperienceRepository.save(havingExperience);
+    }
 
 }
 

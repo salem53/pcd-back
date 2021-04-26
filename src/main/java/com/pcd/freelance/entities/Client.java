@@ -8,6 +8,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -61,6 +62,17 @@ public class Client {
     private long nationalityId;
     private long imageId;
 
+    @OneToMany(mappedBy = "client")
+    Set<Mission> missions;
+
+    public Set<Mission> getMissions() {
+        return missions;
+    }
+
+    public void setMissions(Set<Mission> missions) {
+        this.missions = missions;
+    }
+
     public Client() {
     }
 
@@ -86,5 +98,10 @@ public class Client {
         this.description = description;
         this.nationalityId = nationalityId;
         this.imageId = imageId;
+    }
+
+    public Client(long id) {
+
+        this.id = id;
     }
 }
