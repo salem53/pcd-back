@@ -1,12 +1,14 @@
 package com.pcd.freelance.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.HashSet;
+
+
 import java.util.Set;
 
 @Data
@@ -18,7 +20,7 @@ public class Freelancer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="id")
     private long id;
-    
+
     @Column(name ="firstName")
     @NotBlank(message = "First Name is mandatory")
     private String firstName;
@@ -61,6 +63,11 @@ public class Freelancer {
 
     private String nationality;
     private long imageId;
+
+
+  @OneToMany(mappedBy = "freelancer")
+    @JsonIgnore
+  Set<Skilled> skilled;
 
     @OneToMany(mappedBy = "freelancer")
     Set<Mission> missions;
