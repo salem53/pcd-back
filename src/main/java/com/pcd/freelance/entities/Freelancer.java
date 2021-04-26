@@ -7,6 +7,8 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+
+
 import java.util.Set;
 
 @Data
@@ -62,10 +64,40 @@ public class Freelancer {
     private String nationality;
     private long imageId;
 
+
   @OneToMany(mappedBy = "freelancer")
     @JsonIgnore
   Set<Skilled> skilled;
+
+    @OneToMany(mappedBy = "freelancer")
+    Set<Mission> missions;
+
+    public Set<Mission> getMissions() {
+        return missions;
+    }
+
+    public void setMissions(Set<Mission> missions) {
+        this.missions = missions;
+    }
+
+    //l'association avec experience
+    @OneToMany(mappedBy = "freelancer")
+    private Set<HavingExperience> experiences; //= new HashSet<HavingExperience>();
+
+    public Set<HavingExperience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(Set<HavingExperience> experiences) {
+        this.experiences = experiences;
+    }
+
+
     public Freelancer() {
+    }
+
+    public Freelancer(long id) {
+        this.id = id;
     }
 
     public Freelancer(String firstName, String lastName, String email, String password) {
