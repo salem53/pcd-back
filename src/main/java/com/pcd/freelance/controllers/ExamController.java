@@ -66,6 +66,7 @@ public class ExamController {
   @GetMapping("/GenerateExam/{SkillName}")
   public List<Question> generateQuestions(@PathVariable String SkillName) {
     //create ObjectMapper instance
+    //transform all the json fields into question objects and put randomly nbQuestion in a list to generate the exam
     ObjectMapper objectMapper = new ObjectMapper();
     TypeReference<List<Question>> typeReference = new TypeReference<List<Question>>() {
     };

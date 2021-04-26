@@ -36,7 +36,7 @@ public class LanguageController {
 
   //get one Language
 
-  @GetMapping("/{languageId}")
+  @GetMapping("/getLanguage/{languageId}")
   public java.util.Optional<Language> getLanguage(@PathVariable Long languageId) {
     return  LanguageRepository.findById(languageId);
   }
@@ -49,7 +49,7 @@ public class LanguageController {
   }
   // update language
 
-  @PutMapping("/{languageId}")
+  @PutMapping("update/{languageId}")
   public Language updateLanguage(@PathVariable Long languageId, @Valid @RequestBody Language languageRequest) {
     return LanguageRepository.findById(languageId).map(language -> {
       language.setName(languageRequest.getName());
@@ -58,7 +58,7 @@ public class LanguageController {
   }
 
   // delete language
-  @DeleteMapping("/{languageId}")
+  @DeleteMapping("/delete/{languageId}")
   public ResponseEntity<?> deleteLanguage(@PathVariable Long languageId) {
     return LanguageRepository.findById(languageId).map(language -> {
       LanguageRepository.delete(language);
