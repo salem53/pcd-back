@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class FreelancerController {
             freelancer.setFirstName(freelancerRequest.getFirstName());
             freelancer.setLastName(freelancerRequest.getLastName());
             freelancer.setEmail(freelancerRequest.getEmail());
-            freelancer.setAdress(freelancerRequest.getAdress());
+            freelancer.setAddress(freelancerRequest.getAddress());
             freelancer.setBirthday(freelancerRequest.getBirthday());
             freelancer.setSexe(freelancerRequest.getSexe());
             freelancer.setTelephoneNumber(freelancerRequest.getTelephoneNumber());
