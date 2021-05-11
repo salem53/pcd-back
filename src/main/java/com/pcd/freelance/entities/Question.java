@@ -1,16 +1,20 @@
 package com.pcd.freelance.entities;
 
+import java.util.List;
+
 public class Question {
   String question;
-  String response;
+  List<String> response;
+  List<String> rightResponse;
   int note ;
 
   public Question() {
   }
 
-  public Question(String question, String response, int note) {
+  public Question(String question,List<String>  response,List<String> rightresponse, int note) {
     this.question = question;
     this.response = response;
+    this.rightResponse=rightresponse;
     this.note = note;
   }
 
@@ -22,12 +26,20 @@ public class Question {
     this.question = question;
   }
 
-  public String getResponse() {
+  public List<String> getResponse() {
     return response;
   }
 
-  public void setResponse(String response) {
+  public void setResponse(List<String> response) {
     this.response = response;
+  }
+
+  public List<String> getRightResponse() {
+    return rightResponse;
+  }
+
+  public void setRightResponse(List<String> rightResponse) {
+    this.rightResponse = rightResponse;
   }
 
   public int getNote() {
