@@ -34,36 +34,42 @@ public class SkillsController {
 
   //add new skill
   @PostMapping("/add")
-  public void createSkills(@Valid @RequestBody Skills skill) throws FileNotFoundException {
-    String name = skill.getFileContent().getName();
-    int index = name.lastIndexOf(".");
-    List<Question> ExamQuestion = new ArrayList<Question>() ;
-    ObjectMapper objectMapper = new ObjectMapper();
-    TypeReference<List<Question>> typeReference = new TypeReference<List<Question>>() {
-    };
+  public Skills createSkills(@Valid @RequestBody Skills skill) throws FileNotFoundException {
+    if(skill.getFileContent()!=null) {
+      String name = skill.getFileContent().getName();
+      String nameFile = skill.getFile();
+      int index = name.lastIndexOf(".");
+      List<Question> ExamQuestion = new ArrayList<Question>();
+      ObjectMapper objectMapper = new ObjectMapper();
+      TypeReference<List<Question>> typeReference = new TypeReference<List<Question>>() {
+      };
 
-    if ((name.substring(index + 1, name.length()).equals("json"))&&(skill.getNbQuestion()!=0)) {
-      if(!(skill.getFileContent().exists()) && (SkillsRepository.findByName(skill.getName())==null)) {
-        File newFile = new File("src/main/resources/Exams/" + name);
+      if ((name.substring(index + 1, name.length()).equals("json")) && (skill.getNbQuestion() != 0)) {
+        if (!(skill.getFileContent().exists()) && (SkillsRepository.findByName(skill.getName()) == null)) {
+          File newFile = new File("src/main/resources/Exams/" + name);
 
-        try(var is=new FileInputStream(skill.getFile()))
-        {
-          Files.copy(is,newFile.toPath());
-          InputStream inputStream = TypeReference.class.getResourceAsStream("src/main/resources/Exams/" +name );
-          List<Question> questions = objectMapper.readValue(inputStream, typeReference);
+          try (var is = new FileInputStream(skill.getFile())) {
+            Files.copy(is, newFile.toPath());
+            InputStream inputStream = TypeReference.class.getResourceAsStream("src/main/resources/Exams/" + name);
+            List<Question> questions = objectMapper.readValue(inputStream, typeReference);
 
-          List<Integer> numberOfQuestion = new ArrayList<Integer>();
-          SkillsRepository.save(skill);
-        } catch (JsonParseException e) {
-          e.printStackTrace();
-        } catch (JsonMappingException e) {
-          e.printStackTrace();
-        } catch (IOException e) {
-          e.printStackTrace();
+            List<Integer> numberOfQuestion = new ArrayList<Integer>();
+            SkillsRepository.save(skill);
+          } catch (JsonParseException e) {
+            e.printStackTrace();
+          } catch (JsonMappingException e) {
+            e.printStackTrace();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
         }
+      } else {
+        System.out.println("a json file should be uploaded ");
       }
-    } else {
-      System.out.println("a json file should be uploaded ");
+    }
+    else
+    {
+      return SkillsRepository.save(skill);
     }
 
   }

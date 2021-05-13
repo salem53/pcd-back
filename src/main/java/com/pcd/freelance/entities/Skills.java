@@ -42,6 +42,7 @@ public class Skills {
 
   @Column(name="score")
   float score;
+
   private File fileContent;
 
 
