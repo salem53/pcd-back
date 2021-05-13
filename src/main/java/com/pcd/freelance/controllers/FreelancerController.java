@@ -58,6 +58,10 @@ public class FreelancerController {
         return  freelancerRepository.findById(freelancerId);
     }
 
+   /* public java.util.Optional<Freelancer> getAFreelancer( Long freelancerId) {
+        return  freelancerRepository.findById(freelancerId);
+    }
+*/
     //get freelancer by email
 
     @GetMapping("/getFreelancerByEmail/{freelancerEmail}")
@@ -95,6 +99,7 @@ public class FreelancerController {
         }).orElseThrow(() -> new ResourceNotFoundException("FreelancerId " +
                 freelancerId + " not found"));
     }
+
 
     @PostMapping("/saveImageByEmail/{freelancerEmail}")
     public Freelancer uplaodImage(@RequestParam("imageFile") MultipartFile file,@PathVariable String freelancerEmail) throws IOException, SQLException {
@@ -162,6 +167,10 @@ public class FreelancerController {
         }
 
         return outputStream.toByteArray();
+    }
+
+
+    public FreelancerController() {
     }
 
 }
