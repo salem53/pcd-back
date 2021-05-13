@@ -68,6 +68,7 @@ public class Freelancer {
   @OneToMany(mappedBy = "freelancer")
     @JsonIgnore
   Set<Skilled> skilled;
+<<<<<<< HEAD
 
     @OneToMany(mappedBy = "freelancer")
     Set<Mission> missions;
@@ -93,6 +94,14 @@ public class Freelancer {
     }
 
 
+=======
+  @OneToMany(mappedBy = "freelancer")
+  @JsonIgnore
+  Set<Speak> languages;
+  @OneToMany(mappedBy = "freelancer")
+  @JsonIgnore
+  Set<Study> studies;
+>>>>>>> 882d75f2b7318463a10afbbb87d60283d8db8ec8
     public Freelancer() {
     }
 

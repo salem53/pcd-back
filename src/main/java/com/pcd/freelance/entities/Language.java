@@ -1,9 +1,11 @@
 package com.pcd.freelance.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 @Table(name ="Language",uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
@@ -16,6 +18,9 @@ public class Language {
   @Column(name="name")
   @NotBlank(message = "Name is mandatory")
   private String name;
+
+  @OneToMany(mappedBy = "language")
+  Set<Speak> freelancers;
 
   public long getId() {
     return id;
@@ -36,8 +41,8 @@ public class Language {
   public Language() {
   }
 
-  public Language(long id, @NotBlank(message = "Name is mandatory") String name) {
-    this.id = id;
+  public Language(@NotBlank(message = "Name is mandatory") String name) {
+
     this.name = name;
   }
 
