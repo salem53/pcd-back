@@ -15,37 +15,15 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping({"/HavingExperience"})
-//@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://localhost:4200")
 public class HavingExperienceController {
     @Autowired
     private HavingExperienceRepository HExperienceRepository;
-    //private FreelancerRepository fr=new;
-   // private ExperienceRepository er;
-    FreelancerController fr=new FreelancerController();
-    ExperienceController ex=new ExperienceController();
+
     public HavingExperienceController(HavingExperienceRepository HExperienceRepository) {
         this.HExperienceRepository = HExperienceRepository;
     }
 
-    //add an experience for the freelancer
-   /* @PostMapping("/addHavingExperience/{freelancerId}/{experienceId}")
-    public HavingExperience createExperience(@Valid @RequestBody nouveau n, @PathVariable Long freelancerId, @PathVariable Long experienceId  )
-    {
-
-//        Optional<Freelancer> f= fr.findById(freelancerId);
-//        Optional<Experience> e=er.findById(experienceId);
-//        Hexperience.setExperience(e.get());
-//        Hexperience.setFreelancer(f.get());
-       // Hexperience.setIdHavingExperience(new IdHavingExperience(freelancerId,experienceId));
-     //   return HExperienceRepository.save(Hexperience);
-       /* Freelancer f=fr.getAFreelancer(freelancerId).get();
-        Experience e=ex.getAnExp(experienceId).get();
-        */
-
-     /*   HavingExperience h=new HavingExperience(new IdHavingExperience(freelancerId,experienceId),n.getDescription(),n.getJobType(),n.getBeginingDate(),n.getEndingDate());
-        return HExperienceRepository.save(h);
-    }
-    */
 
     @DeleteMapping("/deleteHavingExperience/{idFreelancer}/{idExp}")
     public ResponseEntity<?> deleteHavingExperience(@PathVariable Long idFreelancer,@PathVariable Long idExp)
@@ -56,39 +34,30 @@ public class HavingExperienceController {
         }).orElseThrow(() -> new ResourceNotFoundException("Having Experience with id =(" +
                 idFreelancer+"," +idExp+ ") not found"));
     }
-    @GetMapping("getHavingExperienceById/{idFreelancer}/{idExp}")
+    @GetMapping("/getHavingExperienceById/{idFreelancer}/{idExp}")
     public HavingExperience getHavingExperienceById(@PathVariable Long idFreelancer,@PathVariable Long idExp)
     {
         return HExperienceRepository.findById(new IdHavingExperience(idFreelancer,idExp)).get();
     }
-    @PutMapping("modifyAnExperience/{freelancerId}/{experienceId}")
-    public HavingExperience updateFreelancer(@PathVariable Long freelancerId,@PathVariable Long experienceId, @Valid @RequestBody nouveau havingExperienceRequest)
+    @PutMapping("/modifyAnExperience")
+    public HavingExperience updateFreelancer(@Valid @RequestBody HavingExperience havingExperienceRequest)
     {
-        return HExperienceRepository.findById(new IdHavingExperience(freelancerId,experienceId)).map(havingExperience->{
+        return HExperienceRepository.findById(new IdHavingExperience(havingExperienceRequest.getFreelancer().getId(),havingExperienceRequest.getExperience().getId())).map(havingExperience->{
             havingExperience.setDescription(havingExperienceRequest.getDescription());
             havingExperience.setBeginingDate(havingExperienceRequest.getBeginingDate());
             havingExperience.setEndingDate(havingExperienceRequest.getEndingDate());
             havingExperience.setJobType(havingExperienceRequest.getJobType());
             return HExperienceRepository.save(havingExperience);
-        }).orElseThrow(() -> new ResourceNotFoundException("Freelancer with Id= " + freelancerId + " not found or experience with id= "+experienceId+" not found "));
+        }).orElseThrow(() -> new ResourceNotFoundException("Freelancer with Id= " + havingExperienceRequest.getFreelancer().getId() + " not found or experience with id= "+havingExperienceRequest.getExperience().getId()+" not found "));
     }
     @PostMapping("/addHavingExperience")
     public HavingExperience createExperience(@Valid @RequestBody HavingExperience havingExperience )
     {
 
-//        Optional<Freelancer> f= fr.findById(freelancerId);
-//        Optional<Experience> e=er.findById(experienceId);
-//        Hexperience.setExperience(e.get());
-//        Hexperience.setFreelancer(f.get());
-        // Hexperience.setIdHavingExperience(new IdHavingExperience(freelancerId,experienceId));
-        //   return HExperienceRepository.save(Hexperience);
-       /* Freelancer f=fr.getAFreelancer(freelancerId).get();
-        Experience e=ex.getAnExp(experienceId).get();
-        */
 
-    //  HavingExperience h=new HavingExperience(new IdHavingExperience(freelancerId,experienceId),n.getDescription(),n.getJobType(),n.getBeginingDate(),n.getEndingDate());
         return HExperienceRepository.save(havingExperience);
     }
+
 
 }
 

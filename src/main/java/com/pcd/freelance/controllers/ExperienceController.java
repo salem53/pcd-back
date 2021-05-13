@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -20,20 +21,36 @@ public class ExperienceController {
     public ExperienceController(ExperienceRepository experienceRepository) {
         this.experienceRepository = experienceRepository;
     }
+    public ExperienceController() {
+    }
 
     //add a  experience for the freelancer
     @PostMapping("/addExperience")
-        public Experience createExperience(@Valid @RequestBody Experience experience)
+        public Experience createExperience(@RequestBody Experience experience)
     {
+       // System.out.println("hello");
         return experienceRepository.save(experience);
+
     }
-    public java.util.Optional<Experience> getAnExp(Long expId)
+    @GetMapping("/allExperiences/{company}")
+    public List<Experience> getExperienceByCompany(@PathVariable String company)
     {
-        return experienceRepository.findById(expId);
+       return experienceRepository.findByCompany(company);
+    }
+    @GetMapping("/GetExperiencesByCompanyandPosition/{company}/{position}")
+    public List<Experience> getExperienceByCompanyAndPosition(@PathVariable String company,@PathVariable String position)
+    {
+
+        return experienceRepository.findByCompanyAndPositionTitle(company,position);
+    }
+    @GetMapping("/getIdExperience/{company}/{position}")
+    public Long getIdExperience(@PathVariable String company,@PathVariable String position)
+    {
+        System.out.println(this.getExperienceByCompanyAndPosition(company, position).get(1).getId());
+        return this.getExperienceByCompanyAndPosition(company, position).get(1).getId();
+
     }
 
-    public ExperienceController() {
-    }
 }
 
 

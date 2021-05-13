@@ -19,6 +19,9 @@ public class IdCertified implements Serializable  {
         this.idCertification = idCertification;
     }
 
+    public IdCertified() {
+    }
+
     public Long getIdFreelancer() {
         return idFreelancer;
     }

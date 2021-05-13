@@ -1,5 +1,6 @@
 package com.pcd.freelance.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,19 +12,8 @@ import java.util.Date;
 @Entity
 @Table(name="HavingExperience")
 public class HavingExperience {
-    public HavingExperience(Freelancer freelancer, Experience experience) {
-        this.freelancer = freelancer;
-        this.experience = experience;
-    }
 
-    public HavingExperience(IdHavingExperience idHavingExperience, Freelancer freelancer, Experience experience) {
-        this.idHavingExperience = idHavingExperience;
-        this.freelancer = freelancer;
-        this.experience = experience;
-    }
 
-    //    @Id
-//    private IdHavingExperience idHavingExperience;
     @EmbeddedId
     private IdHavingExperience idHavingExperience;
 
@@ -37,8 +27,6 @@ public class HavingExperience {
     @JoinColumn(name = "experience_id")
     Experience experience;
 
-
-
     @Column(name="description")
     private String description;
     @Column(name="jobType")
@@ -50,7 +38,16 @@ public class HavingExperience {
 
     public HavingExperience() {
     }
+    public HavingExperience(Freelancer freelancer, Experience experience) {
+        this.freelancer = freelancer;
+        this.experience = experience;
+    }
 
+    public HavingExperience(IdHavingExperience idHavingExperience, Freelancer freelancer, Experience experience) {
+        this.idHavingExperience = idHavingExperience;
+        this.freelancer = freelancer;
+        this.experience = experience;
+    }
     public HavingExperience(IdHavingExperience idHavingExperience, Freelancer freelancer, Experience experience, String description, String jobType, Date beginingDate, Date endingDate) {
         this.idHavingExperience = idHavingExperience;
         this.freelancer = freelancer;
@@ -77,6 +74,7 @@ public class HavingExperience {
         this.endingDate = endingDate;
        // this.idHavingExperience=new IdHavingExperience(idFreelancer,idExperience);
     }
+    /*
    public IdHavingExperience getIdHavingExperience() {
         return idHavingExperience;
     }
@@ -118,6 +116,6 @@ public class HavingExperience {
         this.endingDate = endingDate;
     }
 
-
+*/
 }
 

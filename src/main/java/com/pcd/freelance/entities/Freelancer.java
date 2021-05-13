@@ -65,24 +65,36 @@ public class Freelancer {
     private long imageId;
 
 
+
   @OneToMany(mappedBy = "freelancer")
     @JsonIgnore
   Set<Skilled> skilled;
 
     @OneToMany(mappedBy = "freelancer")
+    @JsonIgnore
     Set<Mission> missions;
 
-    public Set<Mission> getMissions() {
-        return missions;
-    }
-
-    public void setMissions(Set<Mission> missions) {
-        this.missions = missions;
+    public Freelancer(@NotBlank(message = "First Name is mandatory") String firstName, @NotBlank(message = "Last Name is mandatory") String lastName, @NotBlank(message = "Email is mandatory") String email, @NotBlank(message = "Password is mandatory") String password, String address, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, double earning, String nationality) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.sexe = sexe;
+        this.birthday = birthday;
+        this.inscriptionDate = inscriptionDate;
+        this.rating = rating;
+        this.telephoneNumber = telephoneNumber;
+        this.job = job;
+        this.description = description;
+        this.earning = earning;
+        this.nationality = nationality;
     }
 
     //l'association avec experience
     @OneToMany(mappedBy = "freelancer")
-    private Set<HavingExperience> experiences; //= new HashSet<HavingExperience>();
+    @JsonIgnore
+    private Set<HavingExperience> experiences;
 
     public Set<HavingExperience> getExperiences() {
         return experiences;
@@ -124,6 +136,9 @@ public class Freelancer {
         this.nationality = nationality;
         this.imageId = imageId;
     }
+
+
+
 
     @Override
     public String toString() {

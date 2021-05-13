@@ -1,6 +1,7 @@
 package com.pcd.freelance.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -60,6 +61,7 @@ public class Client {
     private String nationality;
     private long imageId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     Set<Mission> missions;
 

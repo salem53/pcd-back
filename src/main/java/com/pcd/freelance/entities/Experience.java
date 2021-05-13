@@ -1,10 +1,10 @@
 package com.pcd.freelance.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
+
 import java.util.Set;
 
 @Data
@@ -12,14 +12,16 @@ import java.util.Set;
 @Table(name="Experience")
 public class Experience {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private long id;
+
     @Column(name="positionTitle")
     private String positionTitle;
     @Column(name="company")
     private String company;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "experience")
     private Set<HavingExperience> experiences;  //= new HashSet<HavingExperience>();
 
@@ -43,12 +45,7 @@ public class Experience {
         this.id = id;
     }
 
-    /* public Experience(long id, String positionTitle, String company) {
-            this.id = id;
-            this.positionTitle = positionTitle;
-            this.company = company;
-        }
-    */
+
     public void setCompany(String company) {
         this.company = company;
     }
