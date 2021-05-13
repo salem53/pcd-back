@@ -21,12 +21,12 @@ public class MissionController {
     public MissionController(MissionRepository missionRepository) {
         this.missionRepository = missionRepository;
     }
-    @PostMapping("/NewMission")
+    @PostMapping("/addMission")
     public Mission createMission(@Valid @RequestBody Mission missionRequest)
     {
         return missionRepository.save(missionRequest);
     }
-    @PutMapping("/ModifyMission")
+    @PutMapping("/updateMission")
     public Mission updateMission (@Valid @RequestBody Mission missionRequest)
     {
         return missionRepository.findById(missionRequest.getId()).map(mission->{
@@ -42,7 +42,7 @@ public class MissionController {
             return missionRepository.save(mission);
         }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id= " + missionRequest.getId()+ " not found  "));
     }
-    @DeleteMapping("/DeleteMission/{idMission}")
+    @DeleteMapping("/deleteMission/{idMission}")
     public ResponseEntity<?> deleteMission (@PathVariable Long idMission)
     {
         return missionRepository.findById(idMission).map(
@@ -54,8 +54,14 @@ public class MissionController {
                 idMission + " not found"));
     }
     @GetMapping("/getMisssion/{idMission}")
-    public Mission getMissionById(@PathVariable Long idMission) {
+    public Mission getMissionById(@PathVariable Long idMission)
+    {
         return missionRepository.findById(idMission).get();
     }
 
+    @GetMapping("/getMisssionByClientAndDescription/{idClient}/{Description}")
+    public Mission getMisssionByClientAndDescription(@PathVariable Long idMission)
+    {
+        return missionRepository.findById(idMission).get();
+    }
 }

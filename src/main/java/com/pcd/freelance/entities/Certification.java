@@ -6,10 +6,13 @@ import javax.persistence.*;
 @Table(name="Certification")
 public class Certification {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private long id;
-
+    @Column(name="name")
+    private String name;
+    @Column(name="organism")
+    private String organism;
     public long getId() {
         return id;
     }
@@ -38,8 +41,7 @@ public class Certification {
         this.organism = organism;
     }
 
-    @Column(name="name")
-    private String name;
-    @Column(name="organism")
-    private String organism;
+    public Certification(long id) {
+        this.id = id;
+    }
 }
