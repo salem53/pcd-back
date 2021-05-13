@@ -1,7 +1,10 @@
 package com.pcd.freelance.entities;
 
+<<<<<<< HEAD
 import com.pcd.freelance.entities.Client;
 import com.pcd.freelance.entities.Freelancer;
+=======
+>>>>>>> 08ecaaefea61d2761999361be52c571eaf70b933
 import lombok.Data;
 
 import javax.persistence.*;

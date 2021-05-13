@@ -2,7 +2,11 @@ package com.pcd.freelance.controllers;
 
 import com.pcd.freelance.encryptDecrypt.AES;
 import com.pcd.freelance.entities.Freelancer;
+<<<<<<< HEAD
 //import com.pcd.freelance.entities.IdHavingExperience;
+=======
+import com.pcd.freelance.entities.IdHavingExperience;
+>>>>>>> 08ecaaefea61d2761999361be52c571eaf70b933
 import com.pcd.freelance.entities.Mission;
 import com.pcd.freelance.exception.ResourceNotFoundException;
 import com.pcd.freelance.repositories.MissionRepository;

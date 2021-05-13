@@ -1,11 +1,13 @@
 package com.pcd.freelance.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -59,6 +61,18 @@ public class Client {
     private String nationality;
     private long imageId;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "client")
+    Set<Mission> missions;
+
+    public Set<Mission> getMissions() {
+        return missions;
+    }
+
+    public void setMissions(Set<Mission> missions) {
+        this.missions = missions;
+    }
+
     public Client() {
     }
 
@@ -84,5 +98,10 @@ public class Client {
         this.description = description;
         this.nationality = nationality;
         this.imageId = imageId;
+    }
+
+    public Client(long id) {
+
+        this.id = id;
     }
 }

@@ -47,6 +47,10 @@ public class FreelancerController {
         return  freelancerRepository.findById(freelancerId);
     }
 
+   /* public java.util.Optional<Freelancer> getAFreelancer( Long freelancerId) {
+        return  freelancerRepository.findById(freelancerId);
+    }
+*/
     //get freelancer by email
 
     @GetMapping("/getFreelancerByEmail/{freelancerEmail}")
@@ -85,4 +89,6 @@ public class FreelancerController {
                 freelancerId + " not found"));
     }
 
+    public FreelancerController() {
+    }
 }
