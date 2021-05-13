@@ -34,7 +34,7 @@ public class SkillsController {
 
   //add new skill
   @PostMapping("/add")
-  public Skills createSkills(@Valid @RequestBody Skills skill) throws FileNotFoundException {
+  public void createSkills(@Valid @RequestBody Skills skill) throws FileNotFoundException {
     if(skill.getFileContent()!=null) {
       String name = skill.getFileContent().getName();
       String nameFile = skill.getFile();
@@ -54,7 +54,7 @@ public class SkillsController {
             List<Question> questions = objectMapper.readValue(inputStream, typeReference);
 
             List<Integer> numberOfQuestion = new ArrayList<Integer>();
-            SkillsRepository.save(skill);
+             SkillsRepository.save(skill);
           } catch (JsonParseException e) {
             e.printStackTrace();
           } catch (JsonMappingException e) {
@@ -65,11 +65,13 @@ public class SkillsController {
         }
       } else {
         System.out.println("a json file should be uploaded ");
+
+
       }
     }
     else
     {
-      return SkillsRepository.save(skill);
+       SkillsRepository.save(skill);
     }
 
   }
