@@ -6,6 +6,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Date;
 
 
@@ -14,7 +16,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name ="freelancer",uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
-public class Freelancer {
+public class Freelancer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -62,7 +64,9 @@ public class Freelancer {
     private double earning;
 
     private String nationality;
-    private long imageId;
+    @Lob
+    @Column(name = "image",nullable = true)
+    private byte[] image;
 
 
 
@@ -119,7 +123,7 @@ public class Freelancer {
         this.password = password;
     }
 
-    public Freelancer(String firstName, String lastName, String email, String password, String address, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, double earning, String nationality, long imageId) {
+    public Freelancer(String firstName, String lastName, String email, String password, String address, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, double earning, String nationality, byte[] image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -134,7 +138,7 @@ public class Freelancer {
         this.description = description;
         this.earning = earning;
         this.nationality = nationality;
-        this.imageId = imageId;
+        this.image = image;
     }
 
 

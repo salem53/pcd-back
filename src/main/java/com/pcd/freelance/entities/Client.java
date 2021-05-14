@@ -36,7 +36,7 @@ public class Client {
     private String password;
 
     @Column(name ="address")
-    private String adress;
+    private String address;
 
     @Column(name ="sexe")
     private String sexe;
@@ -59,7 +59,9 @@ public class Client {
 
 
     private String nationality;
-    private long imageId;
+    @Lob
+    @Column(name = "image",nullable = true)
+    private byte[] image;
 
     @JsonIgnore
     @OneToMany(mappedBy = "client")
@@ -83,12 +85,12 @@ public class Client {
         this.password = password;
     }
 
-    public Client(String firstName, String lastName, String email, String password, String adress, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, String nationality, long imageId) {
+    public Client(String firstName, String lastName, String email, String password, String address, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, String nationality, byte[] image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.adress = adress;
+        this.address = address;
         this.sexe = sexe;
         this.birthday = birthday;
         this.inscriptionDate = inscriptionDate;
@@ -97,7 +99,7 @@ public class Client {
         this.job = job;
         this.description = description;
         this.nationality = nationality;
-        this.imageId = imageId;
+        this.image = image;
     }
 
     public Client(long id) {
