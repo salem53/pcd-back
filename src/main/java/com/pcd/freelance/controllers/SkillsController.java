@@ -33,7 +33,7 @@ public class SkillsController {
   }
 
   //add new skill
-  @PostMapping("/add")
+ /* @PostMapping("/add")
   public Skills createSkills(@Valid @RequestBody Skills skill) throws FileNotFoundException {
     if(skill.getFileContent()!=null) {
       String name = skill.getFileContent().getName();
@@ -73,7 +73,7 @@ public class SkillsController {
     }
 
   }
-  //get list of skills
+  //get list of skills*/
 
   @GetMapping("/list")
   public List<Skills> getAllSkills(){
