@@ -101,6 +101,7 @@ public class FreelancerController {
     }
 
 
+
     public FreelancerController() {
     }
 
@@ -172,5 +173,8 @@ public class FreelancerController {
         return outputStream.toByteArray();
     }
 
+
+    public FreelancerController() {
+    }
 
 }

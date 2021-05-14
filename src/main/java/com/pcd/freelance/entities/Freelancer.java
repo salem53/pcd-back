@@ -74,6 +74,7 @@ public class Freelancer implements Serializable {
     @JsonIgnore
   Set<Skilled> skilled;
 
+
     @OneToMany(mappedBy = "freelancer")
     @JsonIgnore
     Set<Mission> missions;
@@ -100,14 +101,17 @@ public class Freelancer implements Serializable {
     @JsonIgnore
     private Set<HavingExperience> experiences;
 
-    public Set<HavingExperience> getExperiences() {
-        return experiences;
-    }
 
-    public void setExperiences(Set<HavingExperience> experiences) {
-        this.experiences = experiences;
-    }
 
+   
+
+
+  @OneToMany(mappedBy = "freelancer")
+  @JsonIgnore
+  Set<Speak> languages;
+  @OneToMany(mappedBy = "freelancer")
+  @JsonIgnore
+  Set<Study> studies;
 
     public Freelancer() {
     }
