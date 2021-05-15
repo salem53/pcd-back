@@ -19,6 +19,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -90,6 +91,27 @@ public class FreelancerController {
         }).orElseThrow(() -> new ResourceNotFoundException("FreelancerId " + freelancerId + " not found"));
     }
 
+    // update freelancer profile data
+
+    @PutMapping("/profile/{freelancerEmail}")
+    public Freelancer updateFreelancerDataProfil(@PathVariable String freelancerEmail, @Valid @RequestBody Freelancer freelancerRequest) {
+        return freelancerRepository.findByEmail(freelancerEmail).map(freelancer -> {
+            freelancer.setFirstName(freelancerRequest.getFirstName());
+            freelancer.setLastName(freelancerRequest.getLastName());
+            freelancer.setEmail(freelancerRequest.getEmail());
+            freelancer.setAddress(freelancerRequest.getAddress());
+            freelancer.setBirthday(freelancerRequest.getBirthday());
+            freelancer.setSexe(freelancerRequest.getSexe());
+            freelancer.setTelephoneNumber(freelancerRequest.getTelephoneNumber());
+            freelancer.setJob(freelancerRequest.getJob());
+            freelancer.setDescription(freelancerRequest.getDescription());
+            freelancer.setEarning(freelancerRequest.getEarning());
+            freelancer.setNationality(freelancerRequest.getNationality());
+            System.out.println(freelancerRequest.getNationality());
+            return freelancerRepository.save(freelancer);
+        }).orElseThrow(() -> new ResourceNotFoundException("FreelancerId " + freelancerEmail + " not found"));
+    }
+
     // delete freelancer
     @DeleteMapping("/{freelancerId}")
     public ResponseEntity<?> deleteFreelancer(@PathVariable Long freelancerId) {
@@ -106,9 +128,13 @@ public class FreelancerController {
         /*String extension = FilenameUtils.getExtension(file.getOriginalFilename());*/
         System.out.println("Original Image Byte Size - " + file.getBytes().length + " name : "+ file.getOriginalFilename() +
                 " type : "+ file.getContentType());
-        Freelancer freelancer = freelancerRepository.findByEmail(freelancerEmail).get();
 
-        freelancer.setImage(compressBytes(file.getBytes()));
+        Freelancer freelancer = freelancerRepository.findByEmail(freelancerEmail).get();
+        System.out.println(file);
+        if(file!=null) {
+            freelancer.setImage(compressBytes(file.getBytes()));
+        }
+
 
         return freelancerRepository.save(freelancer);
     }
@@ -119,8 +145,11 @@ public class FreelancerController {
 
        Freelancer freelancer = freelancerRepository.findByEmail(freelancerEmail).get();
 
+       if(freelancer.getImage()!=null){
+           freelancer.setImage(decompressBytes(freelancer.getImage()));
+       }
 
-       freelancer.setImage(decompressBytes(freelancer.getImage()));
+
 
 
 
