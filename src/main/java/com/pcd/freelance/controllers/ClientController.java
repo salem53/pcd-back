@@ -80,6 +80,24 @@ public class ClientController {
         }).orElseThrow(() -> new ResourceNotFoundException("ClientId " + ClientId + " not found"));
     }
 
+    // update client profile
+
+    @PutMapping("/profile/{clientEmail}")
+    public Client updateClientProfil(@PathVariable String clientEmail, @Valid @RequestBody Client clientRequest) {
+        return clientRepository.findByEmail(clientEmail).map(client -> {
+            client.setFirstName(clientRequest.getFirstName());
+            client.setLastName(clientRequest.getLastName());
+            client.setEmail(clientRequest.getEmail());
+            client.setAddress(clientRequest.getAddress());
+            client.setBirthday(clientRequest.getBirthday());
+            client.setSexe(clientRequest.getSexe());
+            client.setTelephoneNumber(clientRequest.getTelephoneNumber());
+            client.setJob(clientRequest.getJob());
+            client.setNationality(clientRequest.getNationality());
+            return clientRepository.save(client);
+        }).orElseThrow(() -> new ResourceNotFoundException("ClientId " + clientEmail + " not found"));
+    }
+
     // delete client
     @DeleteMapping("/{clientId}")
     public ResponseEntity<?> deleteClient(@PathVariable Long clientId) {
@@ -96,8 +114,10 @@ public class ClientController {
         System.out.println("Original Image Byte Size - " + file.getBytes().length + " name : "+ file.getOriginalFilename() +
                 " type : "+ file.getContentType());
         Client client = clientRepository.findByEmail(clientEmail).get();
+        if(file!=null) {
+            client.setImage(compressBytes(file.getBytes()));
+        }
 
-        client.setImage(compressBytes(file.getBytes()));
 
         return clientRepository.save(client);
     }
@@ -108,8 +128,11 @@ public class ClientController {
 
         Client client = clientRepository.findByEmail(clientEmail).get();
 
+        if(client.getImage()!=null){
+            client.setImage(decompressBytes(client.getImage()));
+        }
 
-        client.setImage(decompressBytes(client.getImage()));
+
 
 
 

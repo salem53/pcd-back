@@ -19,11 +19,13 @@ public class MissionController {
     private MissionRepository missionRepository;
 
     public MissionController(MissionRepository missionRepository) {
+
         this.missionRepository = missionRepository;
     }
     @PostMapping("/addMission")
     public Mission createMission(@Valid @RequestBody Mission missionRequest)
     {
+        System.out.println(missionRequest);
         return missionRepository.save(missionRequest);
     }
     @PutMapping("/updateMission")
