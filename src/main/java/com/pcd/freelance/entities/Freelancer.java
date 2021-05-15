@@ -74,6 +74,9 @@ public class Freelancer implements Serializable {
     @JsonIgnore
   Set<Skilled> skilled;
 
+    @OneToMany(mappedBy = "freelancer")
+    @JsonIgnore
+    Set<Certified> certifs;
 
     @OneToMany(mappedBy = "freelancer")
     @JsonIgnore
@@ -109,6 +112,7 @@ public class Freelancer implements Serializable {
   @OneToMany(mappedBy = "freelancer")
   @JsonIgnore
   Set<Speak> languages;
+
   @OneToMany(mappedBy = "freelancer")
   @JsonIgnore
   Set<Study> studies;

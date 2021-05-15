@@ -63,4 +63,12 @@ public class Certified {
         this.url = url;
         this.file = file;
     }
+
+    public Certified(Freelancer freelancer, Certification certification, Date date, String url) {
+        this.freelancer = freelancer;
+        this.certification = certification;
+        this.date = date;
+        this.url = url;
+        this.file ="";
+    }
 }

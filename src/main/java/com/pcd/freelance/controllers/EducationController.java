@@ -17,10 +17,10 @@ public class EducationController {
   public EducationController(EducationRepository educationRepository) {
     this.educationRepository = educationRepository;
   }
-  @PostMapping("/add")
-  public void addEducation(@Valid @RequestBody Education education)
+  @PostMapping("/addEducation")
+  public Education addEducation(@Valid @RequestBody Education education)
   {
-    educationRepository.save(education);
+    return educationRepository.save(education);
   }
 
 
@@ -34,6 +34,11 @@ public class EducationController {
   @GetMapping("/getEducation/{educationId}")
   public java.util.Optional<Education> getLanguage(@PathVariable Long educationId) {
     return  educationRepository.findById(educationId);
+
+  }
+  @GetMapping("/getEducationBySchoolAndDegree/{school}/{degree}")
+  public List<Education> getLanguage(@PathVariable String school,@PathVariable String degree) {
+    return  educationRepository.findBySchoolAndDegree(school,degree);
 
   }
 

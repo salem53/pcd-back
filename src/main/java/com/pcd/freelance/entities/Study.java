@@ -1,21 +1,25 @@
 package com.pcd.freelance.entities;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name="Studies")
 public class Study {
   @EmbeddedId
-  StudyId Id;
+  IdStudy idStudy;
+
   @ManyToOne
-  @MapsId("IdFreelancer")
-  @JoinColumn(name="idFreelancer")
+  @MapsId("idFreelancer")
+  @JoinColumn(name="freelancer_id")
   Freelancer freelancer;
 
   @ManyToOne
-  @MapsId("IdEducation")
-  @JoinColumn(name="idEducation")
+  @MapsId("idEducation")
+  @JoinColumn(name="education_id")
   Education education;
 
   @Column(name="beginningDate")
@@ -24,75 +28,46 @@ public class Study {
   Date endDate;
   @Column(name="description")
   String description;
-  @Column(name="result")
-  String result;
 
-  public Study(StudyId id, Freelancer freelancer, Education education, Date beginningDate, Date endDate, String description, String result) {
-    Id = id;
+
+  public Study(IdStudy id, Freelancer freelancer, Education education, Date beginningDate, Date endDate, String description) {
+    this.idStudy = id;
     this.freelancer = freelancer;
     this.education = education;
     this.beginningDate = beginningDate;
     this.endDate = endDate;
     this.description = description;
-    this.result= result;
+
   }
 
   public Study() {
   }
 
-  public StudyId getId() {
-    return Id;
+  public Study(IdStudy idStudy, Date beginningDate, Date endDate, String description) {
+    this.idStudy = idStudy;
+    this.beginningDate = beginningDate;
+    this.endDate = endDate;
+    this.description = description;
+
   }
 
-  public void setId(StudyId id) {
-    Id = id;
-  }
-
-  public Freelancer getFreelancer() {
-    return freelancer;
-  }
-
-  public void setFreelancer(Freelancer freelancer) {
+  public Study(Freelancer freelancer, Education education, Date beginningDate, Date endDate, String description) {
     this.freelancer = freelancer;
+    this.education = education;
+    this.beginningDate = beginningDate;
+    this.endDate = endDate;
+    this.description = description;
+
   }
 
-  public Education getEducation() {
-    return education;
-  }
-
-  public void setEducation(Education education) {
+  public Study(IdStudy idStudy, Freelancer freelancer, Education education) {
+    this.idStudy = idStudy;
+    this.freelancer = freelancer;
     this.education = education;
   }
 
-  public Date getBeginningDate() {
-    return beginningDate;
-  }
-
-  public void setBeginningDate(Date beginningDate) {
-    this.beginningDate = beginningDate;
-  }
-
-  public Date getEndDate() {
-    return endDate;
-  }
-
-  public void setEndDate(Date endDate) {
-    this.endDate = endDate;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public String getResult() {
-    return result;
-  }
-
-  public void setResult(String result) {
-    this.result = result;
+  public Study(Freelancer freelancer, Education education) {
+    this.freelancer = freelancer;
+    this.education = education;
   }
 }
