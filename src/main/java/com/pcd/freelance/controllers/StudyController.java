@@ -14,7 +14,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-@RestController("/Studies")
+@RestController
+@RequestMapping({"/Studies"})
 @CrossOrigin("http://localhost:4200")
 public class StudyController {
   private StudyRepository studyRepository;
@@ -25,15 +26,14 @@ public class StudyController {
     this.studyRepository = studyRepository;
   }
 
-  public StudyController() {
-  }
+
   @GetMapping("/add/{idFreelancer}/{idEducation}")
   public void addStudy(@PathVariable Long idFreelancer, @PathVariable Long idEducation, @RequestBody Date beginningDate, @RequestBody Date endDate,@RequestBody String description,@RequestBody String jobType)
   {
     Freelancer freelancer= freelancerRepository.findById(idFreelancer).get();
     Education education=educationRepository.findById(idEducation).get();
-    StudyId Id=new StudyId(idFreelancer,idEducation);
-    Study Studies=new Study(Id,freelancer,education,beginningDate,endDate,description,jobType);
+    IdStudy Id=new IdStudy(idFreelancer,idEducation);
+    Study Studies=new Study(Id,freelancer,education,beginningDate,endDate,description);
     studyRepository.save(Studies);
 
   }
@@ -46,7 +46,7 @@ public class StudyController {
     Iterator<Study> i = studies.iterator();
     while (i.hasNext()) {
       Study s =i.next();
-      if(s.getId().getIdFreelancer().equals(idFreelancer))
+      if(s.getIdStudy().getIdFreelancer().equals(idFreelancer))
       {
         FreelancerStudies.add(s);
       }
@@ -58,20 +58,20 @@ public class StudyController {
   @PutMapping("/update/{idFreelancer}/{idEducation}")
   public Study updateStudy(@PathVariable Long idFreelancer, @PathVariable Long idEducation,@RequestBody Study study)
   {
-    StudyId Id=new StudyId(idFreelancer,idEducation);
+    IdStudy Id=new IdStudy(idFreelancer,idEducation);
     return studyRepository.findById(Id).map(studies ->
       {
       studies.setDescription(study.getDescription());
       studies.setBeginningDate(study.getBeginningDate());
       studies.setEndDate(study.getEndDate());
-      studies.setResult(study.getResult());
+
       return studyRepository.save(studies);
       }).orElseThrow(() -> new ResourceNotFoundException("Study " + Id.toString() + " not found"));
   }
   @DeleteMapping("/delete/{idFreelancer}/{idEducation}")
   public ResponseEntity<?> deleteStudy(@PathVariable Long idFreelancer,@PathVariable Long idEducation)
   {
-    StudyId Id=new StudyId(idFreelancer,idEducation);
+    IdStudy Id=new IdStudy(idFreelancer,idEducation);
     return studyRepository.findById(Id).map(Study -> {
       studyRepository.delete(Study);
       return ResponseEntity.ok().build();
@@ -85,7 +85,7 @@ public class StudyController {
     Iterator<Study> i = studies.iterator();
     while (i.hasNext()) {
       Study s =i.next();
-      if(s.getId().getIdFreelancer().equals(idFreelancer))
+      if(s.getIdStudy().getIdFreelancer().equals(idFreelancer))
       {
         studyRepository.delete(s);
       }
@@ -96,8 +96,8 @@ public class StudyController {
   @PostMapping("/addStudy")
   public Study addStudy(@Valid @RequestBody Study study )
   {
-
     return studyRepository.save(study);
-
   }
+
+
 }

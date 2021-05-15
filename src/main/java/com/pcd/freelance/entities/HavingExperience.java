@@ -74,48 +74,6 @@ public class HavingExperience {
         this.endingDate = endingDate;
        // this.idHavingExperience=new IdHavingExperience(idFreelancer,idExperience);
     }
-    /*
-   public IdHavingExperience getIdHavingExperience() {
-        return idHavingExperience;
-    }
 
-    public void setIdHavingExperience(IdHavingExperience idHavingExperience) {
-        this.idHavingExperience = idHavingExperience;
-    }
-
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getJobType() {
-        return jobType;
-    }
-
-    public void setJobType(String jobType) {
-        this.jobType = jobType;
-    }
-
-    public Date getBeginingDate() {
-        return beginingDate;
-    }
-
-    public void setBeginingDate(Date beginingDate) {
-        this.beginingDate = beginingDate;
-    }
-
-    public Date getEndingDate() {
-        return endingDate;
-    }
-
-    public void setEndingDate(Date endingDate) {
-        this.endingDate = endingDate;
-    }
-
-*/
 }
 

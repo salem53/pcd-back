@@ -102,9 +102,6 @@ public class FreelancerController {
 
 
 
-    public FreelancerController() {
-    }
-
     @PostMapping("/saveImageByEmail/{freelancerEmail}")
     public Freelancer uplaodImage(@RequestParam("imageFile") MultipartFile file,@PathVariable String freelancerEmail) throws IOException, SQLException {
         /*String extension = FilenameUtils.getExtension(file.getOriginalFilename());*/

@@ -23,7 +23,7 @@ public class Experience {
 
     @JsonIgnore
     @OneToMany(mappedBy = "experience")
-    private Set<HavingExperience> experiences;  //= new HashSet<HavingExperience>();
+    private Set<HavingExperience> experiences;
 
     public long getId() {
         return id;

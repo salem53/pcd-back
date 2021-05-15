@@ -101,7 +101,7 @@ public class SkillsController {
       skills.setName(skillRequest.getName());
       skills.setFileContent(skillRequest.getFileContent());
       skills.setNbQuestion(skillRequest.getNbQuestion());
-      skills.setScore(skillRequest.getScore());
+      //skills.setScore(skillRequest.getScore());
       return SkillsRepository.save(skills);
     }).orElseThrow(() -> new ResourceNotFoundException("SkillId " + skillId + " not found"));
   }

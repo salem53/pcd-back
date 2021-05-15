@@ -1,54 +1,39 @@
 package com.pcd.freelance.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name="Education")
 public class Education {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name ="id")
-  Long Id;
-  @Column(name="School")
-  String School;
+  long id;
+  @Column(name="school")
+  String school;
   @Column(name="degree")
   String degree;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "education")
   Set<Study> studies;
-  public Long getId() {
-    return Id;
-  }
 
-  public void setId(Long id) {
-    Id = id;
-  }
-
-  public String getSchool() {
-    return School;
-  }
-
-  public void setSchool(String school) {
-    School = school;
-  }
-
-  public String getDegree() {
-    return degree;
-  }
-
-  public void setDegree(String degree) {
-    this.degree = degree;
-  }
 
   public Education( String school, String degree) {
 
-    School = school;
+    this.school = school;
     this.degree = degree;
   }
 
   public Education() {
+  }
+
+  public Education(long id) {
+    this.id = id;
   }
 }
