@@ -98,6 +98,9 @@ public class StudyController {
   {
     return studyRepository.save(study);
   }
-
+  @GetMapping("/listByIdFreelancer/{idFreelancer}") //return the educational experiences of a certain freelancer
+  public List<Study> getAllStudiesFreelancers(@PathVariable Long idFreelancer){
+    return studyRepository.findAllByIdFreelancer( idFreelancer);
+  }
 
 }

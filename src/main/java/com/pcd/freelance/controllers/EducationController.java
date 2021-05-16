@@ -1,12 +1,14 @@
 package com.pcd.freelance.controllers;
 
 import com.pcd.freelance.entities.Education;
+import com.pcd.freelance.entities.Freelancer;
 import com.pcd.freelance.entities.Language;
 import com.pcd.freelance.repositories.EducationRepository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/Education")
@@ -40,6 +42,11 @@ public class EducationController {
   public List<Education> getLanguage(@PathVariable String school,@PathVariable String degree) {
     return  educationRepository.findBySchoolAndDegree(school,degree);
 
+  }
+
+  @GetMapping("/listById")
+  public Optional<Education> getAllFreelancers(Long id){
+    return educationRepository.findById(id);
   }
 
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -56,6 +57,11 @@ public class HavingExperienceController {
 
 
         return HExperienceRepository.save(havingExperience);
+    }
+
+    @GetMapping("/listByIdFreelancer/{idFreelancer}") //return the educational experiences of a certain freelancer
+    public List<HavingExperience> getAllExperiencesOfFreelancer(@PathVariable Long idFreelancer){
+        return HExperienceRepository.findAllExperiencesByIdFreelancer( idFreelancer);
     }
 
 

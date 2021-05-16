@@ -1,5 +1,6 @@
 package com.pcd.freelance.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -34,6 +35,7 @@ public class HavingExperience {
     @Column(name = "beginingDate")
     private Date beginingDate;
     @Column(name = "endingDate")
+
     private Date endingDate;
 
     public HavingExperience() {

@@ -12,7 +12,8 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Date;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/certified")
@@ -27,32 +28,6 @@ public class CertifiedController {
     @PostMapping("/addCertified")
     public Certified createCertified (@Valid @RequestBody Certified certifRequest)
     {
-//        MultipartFile file=certifRequest.getFile();
-//       FileOutputStream outputStream = null;
-//       //String path;
-//        String projectPath = System.getProperty("user.dir") + "/Files/"; //projectPath
-//        System.out.println(projectPath);
-//        String filePath = projectPath + file.getOriginalFilename();
-//        Certified certif;
-//        try
-//        {
-//            outputStream = new FileOutputStream(new File(filePath));
-//            outputStream.write(file.getInputStream().read());
-//            outputStream.close();
-//           // path=filePath;
-//          //  uploadFile img = new uploadFile(file.getOriginalFilename(), file.getContentType(),filePath);
-//
-//          //  fileRepo.save(img);
-//
-//        }
-//        catch (Exception e) {
-//            System.out.println("Error while saving file");
-//
-//        }
-//
-//        finally {
-
-        //certif=new Certified(certifRequest.getIdCertified(),certifRequest.getFreelancer(),certifRequest.getCertification(),certifRequest.getDate(),certifRequest.getUrl(),filePath);
 
             return certifiedRepository.save(certifRequest);
 
@@ -83,26 +58,6 @@ public class CertifiedController {
         return certifiedRepository.findById(new IdCertified(idFreelancer,idCertif)).get();
     }
 
-//    @PostMapping("/uploadFile/{idF}/{idC}")
-//    public void processUpload(@PathVariable("idF") Long idF,@PathVariable Long idC,@RequestParam("imageFile") MultipartFile file) throws IOException {
-//        FileOutputStream outputStream = null;
-//        String projectPath = System.getProperty("user.dir") + "/Files/"; //projectPath
-//        System.out.println(projectPath);
-//        String filePath = projectPath + file.getOriginalFilename();
-//        try {
-//            outputStream = new FileOutputStream(new File(filePath));
-//            outputStream.write(file.getInputStream().read());
-//            outputStream.close();
-//            // uploadFile img = new uploadFile(file.getOriginalFilename(), file.getContentType(),filePath);
-//            this.certifiedRepository.updateFileById(filePath,idF,idC);
-//            // fileRepo.save(img);
-//
-//        } catch (Exception e) {
-//            System.out.println("Error while saving file");
-//
-//
-//        }
-//    }
 
     @PutMapping("/updateFileCertification/{idFreelancer}/{idCertif}")
     public Certified updateFileCertification (@PathVariable Long idFreelancer,@PathVariable Long idCertif,@RequestParam("imageFile") MultipartFile file) throws IOException
@@ -110,16 +65,17 @@ public class CertifiedController {
         FileOutputStream outputStream = null;
         String projectPath = System.getProperty("user.dir") + "/CertificationFiles/"; //projectPath
         String filePath = projectPath + file.getOriginalFilename();
+        //System.out.println("hello "+idFreelancer+"idCertif "+idCertif);
         try {
             outputStream = new FileOutputStream(new File(filePath));
             outputStream.write(file.getInputStream().read());
             outputStream.close();
 
-
         } catch (Exception e) {
             System.out.println("Error while saving file");
         }
         finally {
+
             return certifiedRepository.findByIdFreelancerAndIdCertification(idFreelancer,idCertif).map(certified->{
                 certified.setFile(filePath);
                 return certifiedRepository.save(certified);
@@ -128,6 +84,11 @@ public class CertifiedController {
         }
 
 
+    }
+
+    @GetMapping("/listCertificationByIdFreelancer/{idFreelancer}") //return the educational experiences of a certain freelancer
+    public List<Certified> getAllCertificationsOfFreelancer(@PathVariable Long idFreelancer){
+        return certifiedRepository.findAllCertificationByIdFreelancer( idFreelancer);
     }
 
 
