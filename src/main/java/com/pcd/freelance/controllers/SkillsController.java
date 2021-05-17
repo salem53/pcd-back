@@ -2,34 +2,25 @@ package com.pcd.freelance.controllers;
 
 
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pcd.freelance.entities.Question;
 import com.pcd.freelance.entities.Skills;
-import com.pcd.freelance.exception.ResourceNotFoundException;
 
 import com.pcd.freelance.repositories.SkillsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.*;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping({"/Skills"})
 @CrossOrigin("http://localhost:4200")
 public class SkillsController {
   @Autowired
-  private com.pcd.freelance.repositories.SkillsRepository SkillsRepository;
+  private SkillsRepository skillsRepository;
 
   public SkillsController(SkillsRepository skillsRepository) {
-    this.SkillsRepository = skillsRepository;
+    this.skillsRepository = skillsRepository;
   }
 
   //add new skill
@@ -74,7 +65,7 @@ public class SkillsController {
 
   }
   //get list of skills*/
-
+/*
   @GetMapping("/list")
   public List<Skills> getAllSkills(){
     return SkillsRepository.findAll();
@@ -87,7 +78,7 @@ public class SkillsController {
     return  SkillsRepository.findById(skillId);
   }
 
-  //get language by name
+
 
   @GetMapping("/getSkillByName/{skillName}")
   public java.util.Optional<Skills> getSkillByName(@PathVariable String skillName) {
@@ -99,7 +90,7 @@ public class SkillsController {
   public Skills updateSkill(@PathVariable Long skillId, @Valid @RequestBody Skills skillRequest) {
     return SkillsRepository.findById(skillId).map(skills -> {
       skills.setName(skillRequest.getName());
-      skills.setFileContent(skillRequest.getFileContent());
+      //skills.setFileContent(skillRequest.getFileContent());
       skills.setNbQuestion(skillRequest.getNbQuestion());
       //skills.setScore(skillRequest.getScore());
       return SkillsRepository.save(skills);
@@ -115,4 +106,17 @@ public class SkillsController {
     }).orElseThrow(() -> new ResourceNotFoundException("SkillId " +
       skillId + " not found"));
   }
+*/
+  @PostMapping("/addSkill")
+  public Skills createExperience(@RequestBody Skills skillRequest)
+  {
+    return skillsRepository.save(skillRequest);
+  }
+
+  @GetMapping("/getSkillByName")
+  public List<Skills> getSkillByName(@Valid @PathVariable String name)
+  {
+    return skillsRepository.findByName(name);
+  }
+
 }

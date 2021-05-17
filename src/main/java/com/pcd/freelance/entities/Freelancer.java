@@ -82,6 +82,10 @@ public class Freelancer implements Serializable {
     @JsonIgnore
     Set<Mission> missions;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "freelancer")
+    Set<Reviews> reviews;
+
     public Freelancer(@NotBlank(message = "First Name is mandatory") String firstName, @NotBlank(message = "Last Name is mandatory") String lastName, @NotBlank(message = "Email is mandatory") String email, @NotBlank(message = "Password is mandatory") String password, String address, String sexe, Date birthday, Date inscriptionDate, double rating, String telephoneNumber, String job, String description, double earning, String nationality) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -103,11 +107,6 @@ public class Freelancer implements Serializable {
     @OneToMany(mappedBy = "freelancer")
     @JsonIgnore
     private Set<HavingExperience> experiences;
-
-
-
-   
-
 
   @OneToMany(mappedBy = "freelancer")
   @JsonIgnore

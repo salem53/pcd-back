@@ -37,7 +37,7 @@ public class SkilledController {
 
 
   // @GetMapping("/add?{skill}&{freelancerId}")
-  @GetMapping("/add/{skill}/{freelancerId}")
+ /* @GetMapping("/add/{skill}/{freelancerId}")
   public String addSkilled(@PathVariable("skill") String Skill, @PathVariable("freelancerId") Long IdFreelancer)
   {
     Optional<Skills> s1=skillRepo.findByName(Skill);
@@ -55,8 +55,8 @@ public class SkilledController {
         skilledRepo.save(newSkilled);
         return "Skill saved successfully";
     }
-  }
-
+  }*/
+/*
   @GetMapping("PassExam/{freelancerId}/{skill}")
   public List<Question> generateQuestions(@PathVariable Long freelancerId,@PathVariable String skill ) {
     //create ObjectMapper instance
@@ -99,12 +99,13 @@ public class SkilledController {
 
   }
 
+  /*
   @PutMapping("/update/{freelancerId}/{skill}/{result}")
   public Skilled updateResult(@PathVariable Long freelancerId,@PathVariable String skill,@PathVariable int result)
   {
     Freelancer freelancer=freelancerRepo.findById(freelancerId).get();
     Skills skill1= skillRepo.findByName(skill).get();
-    SkilledId skilledId=new SkilledId(freelancerId,skill1.getId());
+    IdSkilled skilledId=new IdSkilled(freelancerId,skill1.getId());
     Skilled SkilledRequest=skilledRepo.findById(skilledId).get();
     AtomicInteger AncienNombreEssai= new AtomicInteger(SkilledRequest.getNbEssai());
     return skilledRepo.findById(skilledId).map(skilled -> {
@@ -118,16 +119,23 @@ public class SkilledController {
       ).orElseThrow(() -> new ResourceNotFoundException("SkillId " + skilledId.toString() + " not found"));
   }
 
-
+/*
   @GetMapping("/generateCertification/{freelancerId}/{skill}")
   public void generateCertification(@PathVariable Long freelancerId,@PathVariable String skill) {
     Skills skill1 = skillRepo.findByName(skill).get();
     Freelancer freelancer = freelancerRepo.findById(freelancerId).get();
-    SkilledId Id = new SkilledId(freelancerId, skill1.getId());
+    IdSkilled Id = new IdSkilled(freelancerId, skill1.getId());
     Skilled skilled = skilledRepo.findById(Id).get();
     if (skilled.getResult() > skill1.getScore()) {
       skilled.setValidate(true);
     }
+  }
+  */
+
+  @PostMapping("/addSkilled")
+  public Skilled createSkilled(@Valid @RequestBody Skilled skilledRequest )
+  {
+    return skilledRepo.save(skilledRequest);
   }
 
 

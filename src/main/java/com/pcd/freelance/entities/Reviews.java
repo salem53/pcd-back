@@ -27,11 +27,11 @@ public class Reviews {
     @JoinColumn(name ="idClient")
     private Client client;
 
-    public Reviews(String commentFreelancer, String commentClient, Freelancer freelancer, Client client) {
+    public Reviews(String commentFreelancer, String commentClient, Freelancer freelancerComment, Client clientComment) {
         this.commentFreelancer = commentFreelancer;
         this.commentClient = commentClient;
-        this.freelancer = freelancer;
-        this.client = client;
+        this.freelancer = freelancerComment;
+        this.client = clientComment;
     }
 
     public Reviews() {

@@ -67,6 +67,12 @@ public class Client {
     @OneToMany(mappedBy = "client")
     Set<Mission> missions;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "client")
+    Set<Reviews> reviews;
+
+
+
     public Set<Mission> getMissions() {
         return missions;
     }
