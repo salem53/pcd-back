@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/Mission")
@@ -60,8 +61,47 @@ public class MissionController {
     }
     @GetMapping("/getMisssion/{idMission}")
     public Mission getMissionById(@PathVariable Long idMission)
+
     {
         return missionRepository.findById(idMission).get();
+    }
+
+    //get hired missions
+    @GetMapping("/getHiredMissions")
+    public List<Mission> getHiredMissions(){
+        return missionRepository.findByHiredOrCompleted("true","false");
+    }
+
+    //get hired missions with client id
+    @GetMapping("/getHiredMissions/clients/{clientId}")
+    public List<Mission> getHiredMissionsWithClientId(@PathVariable Long clientId){
+        return missionRepository.findByHiredOrCompletedWithClientId("true","false",clientId);
+    }
+    //get completed missions with client id
+    @GetMapping("/getCompletedMissions/clients/{clientId}")
+    public List<Mission> getCompletedMissionsWithClientId(@PathVariable Long clientId){
+        return missionRepository.findByHiredOrCompletedWithClientId("true","true",clientId);
+    }
+    //set mission as completed
+    @GetMapping("/setMissionAsCompleted/mission/{idMission}")
+    public Mission setMissionToCopmleted(@PathVariable Long idMission)
+
+    {
+        Mission mission = missionRepository.findById(idMission).get();
+        mission.setCompleted("true");
+        return missionRepository.save(mission);
+    }
+
+    //get hired missions with freelancer id
+    @GetMapping("/getHiredMissions/freelancers/{freelancerId}")
+    public List<Mission> getHiredMissionsWithFreelancerId(@PathVariable Long freelancerId){
+        return missionRepository.findByHiredOrCompletedWithFreelancerId("true","false",freelancerId);
+    }
+
+    //get completed missions with freelancer id
+    @GetMapping("/getCompletedMissions/freelancers/{freelancerId}")
+    public List<Mission> getCompletedMissionsWithFreelancerId(@PathVariable Long freelancerId){
+        return missionRepository.findByHiredOrCompletedWithFreelancerId("true","true",freelancerId);
     }
 
     @GetMapping("/getMisssionByClientAndDescription/{idClient}/{Description}")

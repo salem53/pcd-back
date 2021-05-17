@@ -45,7 +45,9 @@ public class Mission {
     @JoinColumn(name ="idClient")
     private Client client;
 
-
+    public Mission(long id) {
+        this.id = id;
+    }
 
     public Mission() {
     }
