@@ -41,6 +41,7 @@ public class Mission {
     @JoinColumn(name ="idFreelancer")
     private Freelancer freelancer;
 
+
     @ManyToOne
     @JoinColumn(name ="idClient")
     private Client client;

@@ -3,8 +3,6 @@ package com.pcd.freelance.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
 
 
 @Data
@@ -12,15 +10,15 @@ import java.util.Objects;
 @Table(name="Skilled")
 public class Skilled {
   @EmbeddedId
-  SkilledId id;
+  IdSkilled idSkilled;
 
   @ManyToOne
-  @MapsId("freelancerId")
+  @MapsId("idFreelancer")
   @JoinColumn(name="freelancer_id")
   Freelancer freelancer;
 
   @ManyToOne
-  @MapsId("skillId")
+  @MapsId("idSkill")
   @JoinColumn(name="skill_id")
   Skills skill;
 
@@ -37,15 +35,31 @@ public class Skilled {
   }
 
 
-
-  public Skilled(SkilledId id, Freelancer freelancer, Skills skill, int nbEssai, int result) {
-    this.id = id;
+  public Skilled(IdSkilled idSkilled, Freelancer freelancer, Skills skill, int nbEssai, int result, boolean validate) {
+    this.idSkilled = idSkilled;
     this.freelancer = freelancer;
     this.skill = skill;
     this.nbEssai = nbEssai;
     this.result = result;
-    this.validate=false;
+    this.validate = validate;
   }
 
+  public Skilled(Freelancer freelancer, Skills skill) {
+    this.freelancer = freelancer;
+    this.skill = skill;
+  }
 
+  public Skilled(IdSkilled idSkilled, Freelancer freelancer, Skills skill) {
+    this.idSkilled = idSkilled;
+    this.freelancer = freelancer;
+    this.skill = skill;
+  }
+
+  public Skilled(Freelancer freelancer, Skills skill, int nbEssai, int result, boolean validate) {
+    this.freelancer = freelancer;
+    this.skill = skill;
+    this.nbEssai = nbEssai;
+    this.result = result;
+    this.validate = validate;
+  }
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.istack.NotNull;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -20,6 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Data
 @Entity
 @Table(name ="Skills",uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Skills {
@@ -33,21 +35,20 @@ public class Skills {
   private String name;
 
   @Column(name="file")
-  @NotNull
   String file;
 
   @Column(name="nbQuestion")
-  @NotNull
   int nbQuestion;
 
   @Column(name="score")
   float score;
 
-  private File fileContent;
+ // private File fileContent;
 
 
   @OneToMany(mappedBy ="skill")
   Set<Skilled> skilled;
+
   public long getId() {
     return id;
   }
@@ -75,7 +76,8 @@ public class Skills {
   }
   public Skills() {
   }
-  public File getFileContent() {
+
+  /*public File getFileContent() {
     return fileContent;
   }
 
@@ -115,14 +117,10 @@ public class Skills {
     this.file=fileContent.getName();
   }
 
-  public String getFile() {
-    return file;
-  }
+*/
 
 
-  public int getNbQuestion() {
-    return nbQuestion;
-  }
+
 
   public void setNbQuestion(int nbQuestion) {
     if(nbQuestion>0) {
@@ -131,17 +129,28 @@ public class Skills {
   }
 
 
-  public Skills(@NotBlank(message = "Name is mandatory") String name, int nbQuestion, File fileContent,float score) {
+  public Skills(@NotBlank(message = "Name is mandatory") String name, int nbQuestion,float score) {
 
     this.name = name;
-    this.file = fileContent.getName();
+   // this.file = fileContent.getName();
     this.nbQuestion = nbQuestion;
-    this.fileContent = fileContent;
+  //  this.fileContent = fileContent;
     this.score=score;
   }
 
   @Override
   public String toString() {
     return super.toString();
+  }
+
+  public Skills(@NotBlank(message = "Name is mandatory") String name) {
+    this.name = name;
+  }
+
+  public Skills(@NotBlank(message = "Name is mandatory") String name, String file, int nbQuestion, float score) {
+    this.name = name;
+    this.file = file;
+    this.nbQuestion = nbQuestion;
+    this.score = score;
   }
 }
