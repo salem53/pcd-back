@@ -98,4 +98,23 @@ public class Mission {
         this.client = client;
     }
 
+    @Override
+    public String toString() {
+        return "Mission{" +
+                "id=" + id +
+                ", hired='" + hired + '\'' +
+                ", completed='" + completed + '\'' +
+                ", title='" + title + '\'' +
+                ", technologies='" + technologies + '\'' +
+                ", description='" + description + '\'' +
+                ", averagePayment=" + averagePayment +
+                ", duration=" + duration +
+                ", beginningDate=" + beginningDate +
+                ", contrat='" + contrat + '\'' +
+                ", invited='" + invited + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", freelancer=" + freelancer +
+                ", client=" + client +
+                '}';
+    }
 }

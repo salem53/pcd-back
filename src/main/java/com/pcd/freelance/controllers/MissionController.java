@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/Mission")
@@ -102,6 +102,27 @@ public class MissionController {
     @GetMapping("/getCompletedMissions/freelancers/{freelancerId}")
     public List<Mission> getCompletedMissionsWithFreelancerId(@PathVariable Long freelancerId){
         return missionRepository.findByHiredOrCompletedWithFreelancerId("true","true",freelancerId);
+    }
+    //get not hired missions with skills
+    @GetMapping("/getNotHiredMissionsBySkills/missions/notHired/{skills}")
+    public List<Mission> getNotHiredMissionsWithSkills(@PathVariable String skills){
+        String[] skillsList = skills.split(" ");
+        System.out.println("cv");
+        List<Mission> allMissions = missionRepository.findByHiredOrCompleted("false","false");
+
+        List<Mission> selectedMissions = new ArrayList<>();
+        for (int i=0;i<allMissions.size();i++){
+            for(String skill : skillsList) {
+
+                if(allMissions.get(i).getTechnologies()!=null && allMissions.get(i).getTechnologies().contains(skill)){
+                    selectedMissions.add(allMissions.get(i));
+                }
+            }
+
+        }
+        return selectedMissions;
+
+
     }
 
     @GetMapping("/getMisssionByClientAndDescription/{idClient}/{Description}")

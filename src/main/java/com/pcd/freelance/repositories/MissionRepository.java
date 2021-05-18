@@ -18,4 +18,6 @@ public interface MissionRepository extends JpaRepository<Mission,Long> {
 
     @Query("SELECT mission from Mission  mission  WHERE mission.hired= ?1 AND mission.completed= ?2 AND mission.freelancer.id= ?3")
     List<Mission> findByHiredOrCompletedWithFreelancerId(String hired, String completed,Long idFreelancer);
+
+
 }
