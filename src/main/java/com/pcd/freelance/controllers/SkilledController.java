@@ -10,10 +10,10 @@ import com.pcd.freelance.repositories.FreelancerRepository;
 import com.pcd.freelance.repositories.SkilledRepository;
 import com.pcd.freelance.repositories.SkillsRepository;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -138,5 +138,70 @@ public class SkilledController {
     return skilledRepo.save(skilledRequest);
   }
 
-
+  @GetMapping("/getAllSkills/{idFreelancer}")
+  public List<Skilled> getCertifiedById(@PathVariable Long idFreelancer)
+  {
+    return skilledRepo.findAllByFreelancer(idFreelancer);
   }
+   @GetMapping("/getFileBack/{idFreelancer}")
+  public  File [] getFileBack(@PathVariable Long idFreelancer)
+  {
+    System.out.println("hi") ;
+    FileOutputStream outputStream = null;
+    String rep = System.getProperty("user.dir") + "/SkillsQuestions"; //projectPath
+    // String filePath = projectPath + "skillsQuestions.txt";
+    // construction d'un fichier sur ce répertoire
+    File repFile =  new File(rep) ;
+
+    // filtrage du contenu de ce répertoire
+    // on passe en paramètre une instance de classe anonyme
+    File [] fichiersJava = repFile.listFiles(new FileFilter() {
+
+      // cette interface n'a qu'une unique méthode
+      public  boolean accept(File pathname) {
+        // on récupère le nom de ce fichier...
+        String fileName = pathname.getName() ;
+
+        // ... et on teste s'il se termine par .java
+        return fileName.endsWith(".txt") ;
+      }
+
+    }) ;
+    // il ne reste plus qu'à afficher les noms des fichiers
+    // récupérés
+    for (File fichierJava : fichiersJava) {
+      System.out.println(fichierJava) ;
+    }
+    System.out.println("no") ;
+    return fichiersJava;
+  }
+
+
+
+  @GetMapping("/updatef")
+  public void getQuestions()
+  {
+    System.out.println("heyoo");
+    String file = System.getProperty("user.dir") + "/SkillsQuestions/"+"skillsQuestions.txt";;
+    try(BufferedReader br = new BufferedReader(new FileReader(file)))
+    {
+      String line;
+      while ((line = br.readLine()) != null) {
+        System.out.println(line);
+      }
+    }
+    catch (IOException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
+    }
+  }
+
+
+
+
+
+
+
+
+
+}
