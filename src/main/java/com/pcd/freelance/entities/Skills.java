@@ -34,18 +34,21 @@ public class Skills {
   @NotBlank(message = "Name is mandatory")
   private String name;
 
+  @JsonIgnore
   @Column(name="file")
   String file;
 
+  @JsonIgnore
   @Column(name="nbQuestion")
   int nbQuestion;
 
+  @JsonIgnore
   @Column(name="score")
   float score;
 
  // private File fileContent;
 
-
+  @JsonIgnore
   @OneToMany(mappedBy ="skill")
   Set<Skilled> skilled;
 

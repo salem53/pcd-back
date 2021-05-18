@@ -113,7 +113,7 @@ public class SkillsController {
     return skillsRepository.save(skillRequest);
   }
 
-  @GetMapping("/getSkillByName")
+  @GetMapping("/getSkillByName/{name}")
   public List<Skills> getSkillByName(@Valid @PathVariable String name)
   {
     return skillsRepository.findByName(name);
