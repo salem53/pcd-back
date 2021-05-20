@@ -108,6 +108,7 @@ public class Mission {
         this.client = client;
     }
 
+
     public Mission(String hired, String completed, String title, String technologies, String description, Integer averagePayment, Integer duration, Date beginningDate, String contrat, String invited, String filePath, String listInvited, String listApplied, Freelancer freelancer, Client client) {
         this.hired = hired;
         this.completed = completed;
@@ -124,5 +125,25 @@ public class Mission {
         this.listApplied = listApplied;
         this.freelancer = freelancer;
         this.client = client;
+    }
+    @Override=
+    public String toString() {
+        return "Mission{" +
+                "id=" + id +
+                ", hired='" + hired + '\'' +
+                ", completed='" + completed + '\'' +
+                ", title='" + title + '\'' +
+                ", technologies='" + technologies + '\'' +
+                ", description='" + description + '\'' +
+                ", averagePayment=" + averagePayment +
+                ", duration=" + duration +
+                ", beginningDate=" + beginningDate +
+                ", contrat='" + contrat + '\'' +
+                ", invited='" + invited + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", freelancer=" + freelancer +
+                ", client=" + client +
+                '}';
+
     }
 }

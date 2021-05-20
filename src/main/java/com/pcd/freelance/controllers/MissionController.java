@@ -1,21 +1,24 @@
 package com.pcd.freelance.controllers;
 
 
-import com.pcd.freelance.entities.Freelancer;
-import com.pcd.freelance.entities.Mission;
+import com.pcd.freelance.entities.*;
+
 import com.pcd.freelance.exception.ResourceNotFoundException;
+import com.pcd.freelance.repositories.ClientRepository;
+import com.pcd.freelance.repositories.FreelancerRepository;
 import com.pcd.freelance.repositories.MissionRepository;
+import com.pcd.freelance.repositories.SkilledRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
+import java.io.*;
+import java.util.*;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 @RestController
 @RequestMapping("/Mission")
@@ -23,10 +26,21 @@ import java.util.List;
 public class MissionController {
     @Autowired
     private MissionRepository missionRepository;
+    @Autowired
+    private SkilledRepository skilledRepository;
 
-    public MissionController(MissionRepository missionRepository) {
+    @Autowired
+    private FreelancerRepository freelancerR;
+
+    @Autowired
+    private ClientRepository clientR;
+
+    public MissionController(FreelancerRepository freelancerR, ClientRepository clientR, MissionRepository missionRepository, SkilledRepository skilledRepository) {
 
         this.missionRepository = missionRepository;
+        this.skilledRepository=skilledRepository;
+        this.clientR = clientR;
+        this.freelancerR = freelancerR;
     }
     @PostMapping("/addMission")
     public Mission createMission(@Valid @RequestBody Mission missionRequest)
@@ -72,7 +86,24 @@ public class MissionController {
     //get hired missions
     @GetMapping("/getHiredMissions")
     public List<Mission> getHiredMissions(){
+
         return missionRepository.findByHiredOrCompleted("true","false");
+    }
+
+    //get Statistics
+    @GetMapping("/getStatistics")
+    public Statistics getStatistics() {
+        Statistics statistics = new Statistics();
+        statistics.setFreelancersNumber(freelancerR.count());
+        statistics.setClientsNumber(clientR.count());
+        statistics.setTotalMissionsNumber(missionRepository.count());
+        statistics.setHiredMissionsNumber(missionRepository.findByHiredOrCompleted("true","false").size());
+        statistics.setCompletedMissionsNumber(missionRepository.findByHiredOrCompleted("true","true").size());
+        statistics.setTotalFreelancersNationalities(freelancerR.findNationalities().size() );
+        statistics.setTotalClientssNationalities(clientR.findNationalities().size() );
+        statistics.setTotalTransactionNumber(missionRepository.getSum());
+
+        return statistics;
     }
 
     //get hired missions with client id
@@ -106,6 +137,57 @@ public class MissionController {
     public List<Mission> getCompletedMissionsWithFreelancerId(@PathVariable Long freelancerId){
         return missionRepository.findByHiredOrCompletedWithFreelancerId("true","true",freelancerId);
     }
+    //get not hired missions with skills
+    @GetMapping("/getNotHiredMissionsBySkills/missions/notHired/{skills}")
+    public List<Mission> getNotHiredMissionsWithSkills(@PathVariable String skills){
+        String[] skillsList = skills.split(" ");
+        System.out.println("cv");
+        List<Mission> allMissions = missionRepository.findByHiredOrCompleted("false","false");
+
+        List<Mission> selectedMissions = new ArrayList<>();
+        for (int i=0;i<allMissions.size();i++){
+            for(String skill : skillsList) {
+
+                if(allMissions.get(i).getTechnologies()!=null && allMissions.get(i).getTechnologies().contains(skill)){
+                    selectedMissions.add(allMissions.get(i));
+                }
+            }
+
+        }
+        return selectedMissions;
+
+
+    }
+    //get freelancers by skills
+    @GetMapping("/getMissionsBySkills/missions/freelancers/geta/{skills}")
+    public  List<FreelancerWithSkills> getFreelancersWithSkills(@PathVariable String skills) {
+        /*String[] skillsList = skills.split(" ");*/
+       List<Skilled> allSKilledFreelancers= skilledRepository.findAll();
+       List<FreelancerWithSkills> selectedFreelancers = new ArrayList<>();
+       for (Skilled skilled : allSKilledFreelancers){
+           if(skills!= null && skills.contains(skilled.getSkill().getName())){
+               Freelancer freelancer =skilled.getFreelancer();
+                FreelancerWithSkills freelancerWithSkills = new FreelancerWithSkills();
+               if(freelancer != null) {
+                   List<Skilled> freelancerSkills = skilledRepository.findAllByFreelancer(freelancer.getId());
+                   ArrayList<String> skillsOf = new ArrayList<>();
+                   for(Skilled skilllled : freelancerSkills) {
+                       skillsOf.add(skilllled.getSkill().getName());
+                   }
+                   if(freelancer.getImage()!=null){
+                       freelancer.setImage(decompressBytes(freelancer.getImage()));
+                   }
+                   freelancerWithSkills.setSkills(skillsOf);
+               }
+                freelancerWithSkills.setFreelancer(freelancer);
+               selectedFreelancers.add(freelancerWithSkills);
+           }
+
+       }
+        return selectedFreelancers;
+    }
+
+
 
     @GetMapping("/getMisssionByClientAndDescription/{idClient}/{Description}")
     public Mission getMisssionByClientAndDescription(@PathVariable Long idMission)
@@ -138,6 +220,55 @@ public class MissionController {
         }
 
 
+    }
+    //get Completed Missions
+    @GetMapping("/getCompletedMissions")
+    public List<Mission> getCompletedMissions()
+    {
+        return missionRepository.findByHiredOrCompleted("true","true");
+    }
+
+
+
+    // compress the image bytes before storing it in the database
+
+    public static byte[] compressBytes(byte[] data) {
+        Deflater deflater = new Deflater();
+
+        deflater.setInput(data);
+        deflater.finish();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+
+        while (!deflater.finished()) {
+            int count = deflater.deflate(buffer);
+            outputStream.write(buffer, 0, count);
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+        }
+        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+        return outputStream.toByteArray();
+    }
+    // uncompress the image bytes before returning it to the angular application
+    public static byte[] decompressBytes(byte[] data) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+        } catch (IOException ioe) {
+        } catch (DataFormatException e) {
+        }
+
+        return outputStream.toByteArray();
     }
 
 
