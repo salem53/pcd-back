@@ -36,6 +36,10 @@ public class Mission {
     private String invited ;
     @Column(name ="filePath")
     private String filePath ;
+    @Column(name ="listInvited")
+    private String listInvited="" ;
+    @Column(name ="listApplied")
+    private String listApplied="" ;
 
     @ManyToOne
     @JoinColumn(name ="idFreelancer")
@@ -53,8 +57,13 @@ public class Mission {
     public Mission() {
     }
 
+    public Long getId() {
+        return id;
+    }
 
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Mission(String title, String technologies, String description, Integer averagePayment, Integer duration, Date beginningDate, String filePath, Client client) {
         this.title = title;
@@ -99,4 +108,21 @@ public class Mission {
         this.client = client;
     }
 
+    public Mission(String hired, String completed, String title, String technologies, String description, Integer averagePayment, Integer duration, Date beginningDate, String contrat, String invited, String filePath, String listInvited, String listApplied, Freelancer freelancer, Client client) {
+        this.hired = hired;
+        this.completed = completed;
+        this.title = title;
+        this.technologies = technologies;
+        this.description = description;
+        this.averagePayment = averagePayment;
+        this.duration = duration;
+        this.beginningDate = beginningDate;
+        this.contrat = contrat;
+        this.invited = invited;
+        this.filePath = filePath;
+        this.listInvited = listInvited;
+        this.listApplied = listApplied;
+        this.freelancer = freelancer;
+        this.client = client;
+    }
 }

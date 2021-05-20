@@ -1,6 +1,7 @@
 package com.pcd.freelance.controllers;
 
 
+import com.pcd.freelance.entities.Freelancer;
 import com.pcd.freelance.entities.Mission;
 import com.pcd.freelance.exception.ResourceNotFoundException;
 import com.pcd.freelance.repositories.MissionRepository;
@@ -64,7 +65,8 @@ public class MissionController {
     public Mission getMissionById(@PathVariable Long idMission)
 
     {
-        return missionRepository.findById(idMission).get();
+        System.out.println("hero");
+        return missionRepository.findMissionById(idMission);
     }
 
     //get hired missions
@@ -138,5 +140,50 @@ public class MissionController {
 
     }
 
+
+    @PutMapping("/updateListInvitedMission/{idMission}/{idFreelancer}")
+    public Mission updateListInvitedMission(@PathVariable Long idMission,@PathVariable Long idFreelancer) throws IOException
+    {
+
+
+            return missionRepository.findById(idMission).map(mission->{
+                mission.setListInvited(mission.getListInvited()+idFreelancer);
+
+                return missionRepository.save(mission);
+            }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id= " +idMission+ " not found  "));
+
+
+
+
+    }
+    @PutMapping("/updateListAppliedMission/{idMission}/{idFreelancer}")
+    public Mission updateListAppliedMission(@PathVariable Long idMission,@PathVariable Long idFreelancer,@Valid @RequestBody Freelancer f)
+    {
+
+      /*  System.out.println("null");
+        return missionRepository.findById(idMission).map(mission->{
+            if(mission.getListApplied()==null) {
+                System.out.println("null");
+                mission.setListApplied(Long.toString(idFreelancer));
+            }
+            else
+            {
+                System.out.println("non vide");
+            }
+
+            return missionRepository.save(mission);
+        }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id= " +idMission+ " not found  "));
+*/
+        String n;
+        if(missionRepository.findById(idMission).get().getListApplied()==null)
+        {   n=Long.toString(idFreelancer);
+        System.out.println(n);}
+        else
+            n=missionRepository.findById(idMission).get().getListApplied()+Long.toString(idFreelancer);
+        return missionRepository.updateAppliedMission(n,idMission);
+
+
+
+    }
 
 }

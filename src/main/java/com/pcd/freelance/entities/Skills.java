@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 @Table(name ="Skills",uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Skills {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name ="idSkill")
   private long id;
 
