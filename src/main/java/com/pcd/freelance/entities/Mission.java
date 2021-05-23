@@ -40,7 +40,8 @@ public class Mission {
     private String listInvited="" ;
     @Column(name ="listApplied")
     private String listApplied="" ;
-
+    @Column(name ="listAcceptedMissions")
+    private String listAcceptedMissions="" ;
     @ManyToOne
     @JoinColumn(name ="idFreelancer")
     private Freelancer freelancer;
@@ -126,7 +127,8 @@ public class Mission {
         this.freelancer = freelancer;
         this.client = client;
     }
-    @Override=
+
+    @Override
     public String toString() {
         return "Mission{" +
                 "id=" + id +
