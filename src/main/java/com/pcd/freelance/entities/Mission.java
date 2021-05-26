@@ -38,7 +38,9 @@ public class Mission {
     private String filePath ;
     @Column(name ="listInvited")
     private String listInvited="/" ;
+
     @Column(name ="listApplied")
+//<<<<<<< HEAD
     private String listApplied="/" ;
 
     @Column(name ="listAcceptedInvitation")
@@ -46,6 +48,11 @@ public class Mission {
 
 
 
+//=======
+    //private String listApplied="" ;
+   // @Column(name ="listAcceptedMissions")
+   // private String listAcceptedMissions="" ;
+//>>>>>>> Nermine
     @ManyToOne
     @JoinColumn(name ="idFreelancer")
     private Freelancer freelancer;
@@ -131,6 +138,7 @@ public class Mission {
         this.freelancer = freelancer;
         this.client = client;
     }
+
     @Override
     public String toString() {
         return "Mission{" +

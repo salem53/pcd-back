@@ -3,3 +3,15 @@ nermine
 feryel
 khaled
 nermine
+/
+what's your university?
+ENIT
+ENSI
+ENIS
+ENSI
+/
+how are you?
+fine
+not really so well
+bad
+fine

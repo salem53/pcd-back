@@ -365,7 +365,75 @@ public class MissionController {
         return missionRepository.updateAppliedMission(n,idMission);
 
 
+    }
+    @GetMapping("/getMisssionsHiredToFreelancer/{idFreelancer}")
+    public List<Mission> getMisssionsHiredToFreelancer(@PathVariable Long idFreelancer)
+    {
+        return missionRepository.findMissionsHiredToFreelancer(idFreelancer,"false");
+    }
+
+
+    @GetMapping("/getInvitationListToFreelancer/{idFreelancer}") //get the list of missions that this freelancer is invited for
+    public  List<Optional>  getInvitationListToFreelancer(@PathVariable Long idFreelancer)
+    {
+        List<Optional> listMissions=new ArrayList<Optional>();
+        List<List> liste;
+        liste=this.missionRepository.getListInvited();
+       String listeAccepted;
+        for (List l : liste)
+        {
+
+            if((((String)l.get(1)).indexOf(Long.toString(idFreelancer)))>-1) //test if it is in the list of invited ones for this mission
+            {
+                listeAccepted=this.missionRepository.getListAcceptedInvitation((Long)l.get(0)); //l.get(0) est l'id du mission et l.get(1) est la listInvited d"une mission
+                //System.out.println(((String)l.get(1)).indexOf(Long.toString(idFreelancer)));
+                if(listeAccepted.indexOf(Long.toString(idFreelancer)) ==-1) {
+                    listMissions.add(this.missionRepository.findById((Long) l.get(0)));
+                    System.out.println(listeAccepted.indexOf(Long.toString(idFreelancer)));
+                }
+            }
+
+        }
+
+        return listMissions;
+        
+    }
+
+    @PutMapping("/updateListAcceptedInvitations/{idMission}/{idFreelancer}")
+    public Mission updateListAcceptedInvitations(@PathVariable Long idMission,@PathVariable Long idFreelancer)
+    {
+        return missionRepository.findById(idMission).map(mission->{
+            mission.setListAcceptedInvitation(mission.getListAcceptedInvitation()+'/'+idFreelancer);
+
+            return missionRepository.save(mission);
+        }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id= " +idMission+ " not found  "));
 
     }
+
+    @GetMapping("/getAppliedMissionsToFreelancer/{idFreelancer}") //get the list of missions that this freelancer is invited for
+    public  List<Optional>  getAppliedMissionsToFreelancer(@PathVariable Long idFreelancer)
+    {
+        List<Optional> listMissions=new ArrayList<Optional>();
+        List<List> liste;
+        liste=this.missionRepository.getAppliedMissions(idFreelancer);
+        //String listeAccepted;
+        for (List l : liste)
+        {
+
+            if((((String)l.get(1)).indexOf(Long.toString(idFreelancer)))>-1) //test if he is in the list of applied ones for this mission(the mission is not hired)
+            {
+
+                    listMissions.add(this.missionRepository.findById((Long) l.get(0)));
+
+            }
+
+        }
+
+        return listMissions;
+
+    }
+
+
+
 
 }

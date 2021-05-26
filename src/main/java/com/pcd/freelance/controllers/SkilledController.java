@@ -178,22 +178,39 @@ public class SkilledController {
 
 
 
-  @GetMapping("/updatef")
-  public void getQuestions()
+  @GetMapping("/getQuestions")
+  public List<List<String>> getQuestions()
   {
-    System.out.println("heyoo");
-    String file = System.getProperty("user.dir") + "/SkillsQuestions/"+"skillsQuestions.txt";;
-    try(BufferedReader br = new BufferedReader(new FileReader(file)))
+   // System.out.println("heyoo");
+    String file = System.getProperty("user.dir") + "/SkillsQuestions/"+"skillQuestions.txt";;
+    List<String> questions=new ArrayList<String>();
+    List<List<String>> listeQuestions=new ArrayList<>();
+    try
     {
+      BufferedReader br = new BufferedReader(new FileReader(file));
       String line;
       while ((line = br.readLine()) != null) {
-        System.out.println(line);
+          if(line.equals("/"))
+          {
+            System.out.println("/ jé");
+            listeQuestions.add(questions);
+            questions=new ArrayList<String>();
+          }
+          else
+        questions.add(line);
+
       }
+      listeQuestions.add(questions);
+      System.out.println(listeQuestions);
     }
     catch (IOException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }
+    finally {
+      return listeQuestions;
+    }
+
   }
 
 

@@ -29,4 +29,16 @@ public interface MissionRepository extends JpaRepository<Mission,Long> {
     @Query("UPDATE Mission m SET m.listApplied= ?1  WHERE m.id= ?2 ")
     Mission updateAppliedMission(String idFreelancer,Long idMission);
 
+    @Query("SELECT mission from Mission  mission  WHERE mission.completed= ?2 AND mission.freelancer.id= ?1 ")
+    List<Mission> findMissionsHiredToFreelancer(Long idfreelancer,String compelted);
+
+    @Query("SELECT mission.id,mission.listInvited  from Mission  mission ")
+    List<List> getListInvited();
+
+    @Query("SELECT mission.listAcceptedInvitation  from Mission  mission where mission.id=?1 ")
+    String getListAcceptedInvitation(Long idMission);
+
+    //list of the missions
+    @Query("SELECT mission.id,mission.listApplied  from Mission  mission where mission.freelancer.id <> ?1 or mission.freelancer.id is null ")
+    List<List> getAppliedMissions(Long idfreelancer);
 }
