@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.validation.Valid;
 import java.io.*;
@@ -227,6 +228,56 @@ public class MissionController {
     {
         return missionRepository.findByHiredOrCompleted("true","true");
     }
+    //set mission as hired
+    @GetMapping("/setMissionAsHired/{missionId}/{freelancerId}")
+    public Mission setMissionAsHired(@PathVariable Long missionId,@PathVariable Long freelancerId){
+        Mission mission = missionRepository.findById(missionId).get();
+        Freelancer freelancer = freelancerR.findById(freelancerId).get();
+        mission.setHired("true");
+        mission.setFreelancer(freelancer);
+
+       return missionRepository.save(mission);
+    }
+    //get Not Hired Mission With Client
+
+
+    @GetMapping("/getNotHiredMissions/clients/{clientId}")
+    public List<MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations> getNotHiredMissionsWithClientId(@PathVariable Long clientId){
+        List<Mission> missions = missionRepository.findByHiredOrCompletedWithClientId("false","false",clientId);
+
+        List<MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations> selectedMissions= new ArrayList<>();
+        for(Mission mission : missions){
+            MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations missionToAdd = new MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations();
+            missionToAdd.setMission(mission);
+            List<Freelancer> invitedFreelancers = new ArrayList<>();
+            List<Freelancer> freelancersAcceptedInvitations= new ArrayList<>();
+            List<Freelancer> appliedFreelancers = new ArrayList<>();
+            List<String> invitedFreelancersIds = Arrays.asList(mission.getListInvited().split("/"));
+            System.out.println(invitedFreelancersIds);
+            List<String> freelancersAcceptedInvitationsIds = Arrays.asList(mission.getListAcceptedInvitation().split("/"));
+            List<String> appliedFreelancersIds = Arrays.asList(mission.getListApplied().split("/"));
+            for(String id: invitedFreelancersIds){
+                invitedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+            }
+            for(String id: appliedFreelancersIds){
+                appliedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+            }
+            for(String id: freelancersAcceptedInvitationsIds){
+                freelancersAcceptedInvitations.add(freelancerR.findById(Long.valueOf(id)).get());
+            }
+            missionToAdd.setInvitedFreelancers(invitedFreelancers);
+            missionToAdd.setAppliedFreelancers(appliedFreelancers);
+            missionToAdd.setFreelancersAcceptedInvitations(freelancersAcceptedInvitations);
+            selectedMissions.add(missionToAdd);
+        }
+        return selectedMissions;
+    }
+
+    /*//get not hired missions with freelancer id
+    @GetMapping("/getNotHiredMissions/freelancers/{freelancerId}")
+    public List<Mission> getNotHiredMissionsWithFreelancerId(@PathVariable Long freelancerId){
+        return missionRepository.findByHiredOrCompletedWithFreelancerId("false","false",freelancerId);
+    }*/
 
 
 

@@ -25,9 +25,9 @@ public class Mission {
     @Column(name ="description")
     private String description;
     @Column(name ="averagePayment")
-    private Integer averagePayment;
+    private Integer averagePayment=0;
     @Column(name ="duration")
-    private Integer duration;
+    private Integer duration=0;
     @Column(name ="beginningDate")
     private Date beginningDate;
     @Column(name ="contrat")
@@ -37,9 +37,14 @@ public class Mission {
     @Column(name ="filePath")
     private String filePath ;
     @Column(name ="listInvited")
-    private String listInvited="" ;
+    private String listInvited="/" ;
     @Column(name ="listApplied")
-    private String listApplied="" ;
+    private String listApplied="/" ;
+
+    @Column(name ="listAcceptedInvitation")
+    private String listAcceptedInvitation="/" ;
+
+
 
     @ManyToOne
     @JoinColumn(name ="idFreelancer")
@@ -126,7 +131,7 @@ public class Mission {
         this.freelancer = freelancer;
         this.client = client;
     }
-    @Override=
+    @Override
     public String toString() {
         return "Mission{" +
                 "id=" + id +
