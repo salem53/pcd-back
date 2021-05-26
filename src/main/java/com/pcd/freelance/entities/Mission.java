@@ -40,7 +40,7 @@ public class Mission {
     private String listInvited="/" ;
 
     @Column(name ="listApplied")
-//<<<<<<< HEAD
+//
     private String listApplied="/" ;
 
     @Column(name ="listAcceptedInvitation")
@@ -52,7 +52,7 @@ public class Mission {
     //private String listApplied="" ;
    // @Column(name ="listAcceptedMissions")
    // private String listAcceptedMissions="" ;
-//>>>>>>> Nermine
+//
     @ManyToOne
     @JoinColumn(name ="idFreelancer")
     private Freelancer freelancer;
