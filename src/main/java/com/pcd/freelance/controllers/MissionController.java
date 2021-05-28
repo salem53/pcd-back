@@ -246,37 +246,54 @@ public class MissionController {
         List<Mission> missions = missionRepository.findByHiredOrCompletedWithClientId("false","false",clientId);
 
         List<MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations> selectedMissions= new ArrayList<>();
-        for(Mission mission : missions){
+        for(Mission mission : missions) {
 
             MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations missionToAdd = new MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations();
             missionToAdd.setMission(mission);
             List<Freelancer> invitedFreelancers = new ArrayList<>();
-            List<Freelancer> freelancersAcceptedInvitations= new ArrayList<>();
+            List<Freelancer> freelancersAcceptedInvitations = new ArrayList<>();
             List<Freelancer> appliedFreelancers = new ArrayList<>();
-            List<String> invitedFreelancersIds = Arrays.asList(mission.getListInvited().split("/"));
+            List<String> invitedFreelancersIds = new ArrayList<>();
+            List<String> freelancersAcceptedInvitationsIds = new ArrayList<>();
+            List<String> appliedFreelancersIds = new ArrayList<>();
+            /*List<String> invitedFreelancersIds = Arrays.asList(mission.getListInvited().split("/"));*/
             System.out.println(invitedFreelancersIds);
-            List<String> freelancersAcceptedInvitationsIds = Arrays.asList(mission.getListAcceptedInvitation().split("/"));
-            List<String> appliedFreelancersIds = Arrays.asList(mission.getListApplied().split("/"));
-            for(String id: invitedFreelancersIds){
-                if(id!=""){
-                    invitedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+            /*List<String> freelancersAcceptedInvitationsIds = Arrays.asList(mission.getListAcceptedInvitation().split("/"));
+            List<String> appliedFreelancersIds = Arrays.asList(mission.getListApplied().split("/"));*/
+            if (mission.getListInvited() != "") {
+                invitedFreelancersIds = Arrays.asList(mission.getListInvited().split("/"));
+                for (String id : invitedFreelancersIds) {
+                    if (id != "") {
+                        invitedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+                    }
                 }
 
-            }
-            for(String id: appliedFreelancersIds){
-                if(id!="") {
-                    appliedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+                if (mission.getListApplied() != "") {
+                    appliedFreelancersIds = Arrays.asList(mission.getListApplied().split("/"));
+                    for (String id : appliedFreelancersIds) {
+                        if (id != "") {
+                            appliedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+                        }
+                    }
                 }
-            }
-            for(String id: freelancersAcceptedInvitationsIds){
-                if(id!="") {
-                    freelancersAcceptedInvitations.add(freelancerR.findById(Long.valueOf(id)).get());
+
+                if (mission.getListAcceptedInvitation() != "") {
+                    freelancersAcceptedInvitationsIds = Arrays.asList(mission.getListAcceptedInvitation().split("/"));
+                    for (String id : freelancersAcceptedInvitationsIds) {
+                        if (id != "") {
+                            freelancersAcceptedInvitations.add(freelancerR.findById(Long.valueOf(id)).get());
+                        }
+                    }
+
                 }
+
+
+                missionToAdd.setInvitedFreelancers(invitedFreelancers);
+                missionToAdd.setAppliedFreelancers(appliedFreelancers);
+                missionToAdd.setFreelancersAcceptedInvitations(freelancersAcceptedInvitations);
+                selectedMissions.add(missionToAdd);
+
             }
-            missionToAdd.setInvitedFreelancers(invitedFreelancers);
-            missionToAdd.setAppliedFreelancers(appliedFreelancers);
-            missionToAdd.setFreelancersAcceptedInvitations(freelancersAcceptedInvitations);
-            selectedMissions.add(missionToAdd);
         }
         return selectedMissions;
     }
