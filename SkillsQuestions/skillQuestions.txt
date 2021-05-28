@@ -1,8 +1,8 @@
-what's your name?
-nermine
-feryel
-khaled
-nermine
+what's angular?
+language for programming
+software
+editeur
+language for programming
 /
 what's your university?
 ENIT

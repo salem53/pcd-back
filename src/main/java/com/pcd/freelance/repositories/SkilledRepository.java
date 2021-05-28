@@ -13,6 +13,9 @@ public interface SkilledRepository extends JpaRepository<Skilled, IdSkilled> {
     @Query("SELECT skill from Skilled skill WHERE skill.idSkilled.idFreelancer = ?1")
     List<Skilled> findAllByFreelancer(Long idFreelancer);
 
+    @Query("SELECT skill.idSkilled from Skilled skill WHERE skill.idSkilled.idFreelancer = ?1 and skill.idSkilled.idSkill = ?2 ")
+    IdSkilled getIdOfSkilled(Long idFreelancer, Long idSkill);
+
     /*@Query(value = "SELECT freelancer FROM Skilled skill WHERE skill.skill.name= ?1",
             nativeQuery = true)
     List<Freelancer> findFreelancersBySkill(String skillName);*/

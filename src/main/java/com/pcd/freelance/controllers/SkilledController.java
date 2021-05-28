@@ -213,9 +213,31 @@ public class SkilledController {
 
   }
 
+  @PutMapping("/skillValid/{idFreelancer}/{idSkill}")
+  public Skilled skillValid(@Valid @RequestBody Skilled skilledRequest,@PathVariable Long idFreelancer,@PathVariable Long idSkill)
+  {
+    //System.out.println(reviewRequest);
+    IdSkilled id=this.skilledRepo.getIdOfSkilled(idFreelancer,idSkill);
 
+    return skilledRepo.findById(id).map(skilled->{
+      skilled.setValidate("true");
+      return skilledRepo.save(skilled);
+    }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id=  not found  "));
+  }
 
+  @PutMapping("/addSkillValidationTry/{idFreelancer}/{idSkill}")
+  public Skilled addSkillValidationTry(@Valid @RequestBody Skilled skilledRequest,@PathVariable Long idFreelancer,@PathVariable Long idSkill)
+  {
+    //System.out.println(reviewRequest);
+    IdSkilled id=this.skilledRepo.getIdOfSkilled(idFreelancer,idSkill);
 
+    return skilledRepo.findById(id).map(skilled->{
+      skilled.setNbEssai(skilled.getNbEssai()+1);
+      if(skilled.getNbEssai()>=4)
+        skilled.setValidate("false");
+      return skilledRepo.save(skilled);
+    }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id=  not found  "));
+  }
 
 
 
