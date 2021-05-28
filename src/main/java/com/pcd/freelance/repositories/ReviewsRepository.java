@@ -25,4 +25,7 @@ public interface ReviewsRepository extends JpaRepository<Reviews,Long> {
 
     @Query("SELECT review from Reviews  review  WHERE  review.freelancer.id=?1 ")
     List<Reviews> findReviewsAboutFreelancer(Long idFreelancer);
+
+    @Query("SELECT review from Reviews  review  WHERE  review.client.id=?1 ")
+    List<Reviews> findReviewsAboutClient(Long idClient);
 }

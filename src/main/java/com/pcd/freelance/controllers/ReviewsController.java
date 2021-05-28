@@ -48,4 +48,11 @@ public class ReviewsController {
     {
         return reviewsRepository.findReviewsAboutFreelancer(idFreelancer);
     }
+
+    //return the freelancer's reviews about this client
+    @GetMapping("/getReviewsAboutClient/{idClient}")
+    public List<Reviews> getReviewsAboutClient(@PathVariable Long idClient)
+    {
+        return reviewsRepository.findReviewsAboutClient(idClient);
+    }
 }
