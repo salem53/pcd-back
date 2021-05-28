@@ -37,14 +37,14 @@ public class Mission {
     @Column(name ="filePath")
     private String filePath ;
     @Column(name ="listInvited")
-    private String listInvited="/" ;
+    private String listInvited="" ;
 
     @Column(name ="listApplied")
 //
-    private String listApplied="/" ;
+    private String listApplied="" ;
 
     @Column(name ="listAcceptedInvitation")
-    private String listAcceptedInvitation="/" ;
+    private String listAcceptedInvitation="" ;
 
 
 

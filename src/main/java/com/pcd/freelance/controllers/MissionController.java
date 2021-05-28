@@ -247,6 +247,7 @@ public class MissionController {
 
         List<MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations> selectedMissions= new ArrayList<>();
         for(Mission mission : missions){
+
             MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations missionToAdd = new MissionNotHiredWithApplicationsAndInvitedAndAcceptedInvitations();
             missionToAdd.setMission(mission);
             List<Freelancer> invitedFreelancers = new ArrayList<>();
@@ -257,13 +258,20 @@ public class MissionController {
             List<String> freelancersAcceptedInvitationsIds = Arrays.asList(mission.getListAcceptedInvitation().split("/"));
             List<String> appliedFreelancersIds = Arrays.asList(mission.getListApplied().split("/"));
             for(String id: invitedFreelancersIds){
-                invitedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+                if(id!=""){
+                    invitedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+                }
+
             }
             for(String id: appliedFreelancersIds){
-                appliedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+                if(id!="") {
+                    appliedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
+                }
             }
             for(String id: freelancersAcceptedInvitationsIds){
-                freelancersAcceptedInvitations.add(freelancerR.findById(Long.valueOf(id)).get());
+                if(id!="") {
+                    freelancersAcceptedInvitations.add(freelancerR.findById(Long.valueOf(id)).get());
+                }
             }
             missionToAdd.setInvitedFreelancers(invitedFreelancers);
             missionToAdd.setAppliedFreelancers(appliedFreelancers);
