@@ -260,10 +260,10 @@ public class MissionController {
             System.out.println(invitedFreelancersIds);
             /*List<String> freelancersAcceptedInvitationsIds = Arrays.asList(mission.getListAcceptedInvitation().split("/"));
             List<String> appliedFreelancersIds = Arrays.asList(mission.getListApplied().split("/"));*/
-            if (mission.getListInvited() != "") {
+            if (mission.getListInvited() != "" ) {
                 invitedFreelancersIds = Arrays.asList(mission.getListInvited().split("/"));
                 for (String id : invitedFreelancersIds) {
-                    if (id != "") {
+                    if (id != "" && id.length()>0) {
                         invitedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
                     }
                 }
@@ -271,7 +271,7 @@ public class MissionController {
                 if (mission.getListApplied() != "") {
                     appliedFreelancersIds = Arrays.asList(mission.getListApplied().split("/"));
                     for (String id : appliedFreelancersIds) {
-                        if (id != "") {
+                        if (id != "" && id.length()>0) {
                             appliedFreelancers.add(freelancerR.findById(Long.valueOf(id)).get());
                         }
                     }
@@ -280,7 +280,7 @@ public class MissionController {
                 if (mission.getListAcceptedInvitation() != "") {
                     freelancersAcceptedInvitationsIds = Arrays.asList(mission.getListAcceptedInvitation().split("/"));
                     for (String id : freelancersAcceptedInvitationsIds) {
-                        if (id != "") {
+                        if (id != "" && id.length()>0) {
                             freelancersAcceptedInvitations.add(freelancerR.findById(Long.valueOf(id)).get());
                         }
                     }
