@@ -22,7 +22,7 @@ import java.util.zip.Inflater;
 @RestController
 @RequestMapping({"/clients"})
 @CrossOrigin("http://localhost:4200")
-public class ClientController {
+public class ClientController extends FreelancerController {
 
 
     @Autowired
@@ -109,7 +109,7 @@ public class ClientController {
     }
 
     @PostMapping("/saveImageByEmail/{clientEmail}")
-    public Client uplaodImage(@RequestParam("imageFile") MultipartFile file, @PathVariable String clientEmail) throws IOException, SQLException {
+    public Client uplaodimage(@RequestParam("imageFile") MultipartFile file, @PathVariable String clientEmail) throws IOException, SQLException {
         /*String extension = FilenameUtils.getExtension(file.getOriginalFilename());*/
         System.out.println("Original Image Byte Size - " + file.getBytes().length + " name : "+ file.getOriginalFilename() +
                 " type : "+ file.getContentType());
@@ -123,7 +123,7 @@ public class ClientController {
     }
     @GetMapping(path = { "/getImageByEmail/{clientEmail}" })
 
-    public Client getImage(@PathVariable String clientEmail) throws IOException {
+    public Client getimage(@PathVariable String clientEmail) throws IOException {
 
 
         Client client = clientRepository.findByEmail(clientEmail).get();

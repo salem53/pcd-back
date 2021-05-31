@@ -24,7 +24,7 @@ import java.util.zip.Inflater;
 @RestController
 @RequestMapping("/Mission")
 @CrossOrigin("http://localhost:4200")
-public class MissionController {
+public class MissionController  {
     @Autowired
     private MissionRepository missionRepository;
     @Autowired
@@ -36,13 +36,13 @@ public class MissionController {
     @Autowired
     private ClientRepository clientR;
 
-    public MissionController(FreelancerRepository freelancerR, ClientRepository clientR, MissionRepository missionRepository, SkilledRepository skilledRepository) {
-
-        this.missionRepository = missionRepository;
-        this.skilledRepository=skilledRepository;
-        this.clientR = clientR;
-        this.freelancerR = freelancerR;
-    }
+//    public MissionController(FreelancerRepository freelancerR, ClientRepository clientR, MissionRepository missionRepository, SkilledRepository skilledRepository) {
+//
+//        this.missionRepository = missionRepository;
+//        this.skilledRepository=skilledRepository;
+//        this.clientR = clientR;
+//        this.freelancerR = freelancerR;
+//    }
     @PostMapping("/addMission")
     public Mission createMission(@Valid @RequestBody Mission missionRequest)
     {

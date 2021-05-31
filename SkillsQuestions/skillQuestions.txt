@@ -1,17 +1,17 @@
 what's angular?
 language for programming
 software
-editeur
-language for programming
+framework
+framework
 /
-what's your university?
-ENIT
-ENSI
-ENIS
-ENSI
+Angular is?
+implemented with Javascript
+builded with javascript
+none of the above
+builded with javascript
 /
-how are you?
-fine
-not really so well
-bad
-fine
+what's transpiling?
+transporting+compiling
+compiling+traduction
+none of the above
+compiling+traduction
