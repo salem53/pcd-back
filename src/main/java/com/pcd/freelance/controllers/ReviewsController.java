@@ -31,16 +31,39 @@ public class ReviewsController {
     {
         return reviewsRepository.findEmptyReviewsOfFreelancer(idFreelancer,"");
     }
-    @PutMapping("/addFreelancerReview/{idFreelancer}/{idClient}")
-    public Reviews createReviews(@Valid @RequestBody Reviews reviewRequest,@PathVariable Long idFreelancer,@PathVariable Long idClient)
+//    @PutMapping("/addFreelancerReview/{idFreelancer}/{idClient}")
+//    public Reviews createReviews(@Valid @RequestBody Reviews reviewRequest,@PathVariable Long idFreelancer,@PathVariable Long idClient)
+//    {
+//        System.out.println(reviewRequest);
+//        Long id=reviewsRepository.getIdOfReviews(idFreelancer,idClient);
+//
+//        return reviewsRepository.findById(id).map(review->{
+//            review.setCommentFreelancer(reviewRequest.getCommentFreelancer());
+//            return reviewsRepository.save(review);
+//        }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id=  not found  "));
+//    }
+@PutMapping("/addFreelancerReview/{idMission}")
+public Reviews createReviews(@Valid @RequestBody Reviews reviewRequest,@PathVariable Long idMission)
+{
+    System.out.println(reviewRequest);
+    //Long id=reviewsRepository.getIdOfReviews(idFreelancer,idClient);
+
+    return reviewsRepository.findById(idMission).map(review->{
+        review.setCommentFreelancer(reviewRequest.getCommentFreelancer());
+        return reviewsRepository.save(review);
+    }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id=  not found  "));
+}
+    //the client's reviews about a freelancer
+    @PutMapping("/addClientFeedback/{idFreelancer}/{idClient}")
+    public Reviews createReviewsOfClient(@Valid @RequestBody Reviews reviewRequest,@PathVariable Long idFreelancer,@PathVariable Long idClient)
     {
-        System.out.println(reviewRequest);
+       // System.out.println(reviewRequest);
         Long id=reviewsRepository.getIdOfReviews(idFreelancer,idClient);
 
         return reviewsRepository.findById(id).map(review->{
-            review.setCommentFreelancer(reviewRequest.getCommentFreelancer());
+            review.setCommentClient(reviewRequest.getCommentClient());
             return reviewsRepository.save(review);
-        }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id=  not found  "));
+        }).orElseThrow(() -> new ResourceNotFoundException("review with Id=  not found  "));
     }
         //return the client's reviews about this freelancer
     @GetMapping("/getReviewsAboutFreelancer/{idFreelancer}")
@@ -54,5 +77,16 @@ public class ReviewsController {
     public List<Reviews> getReviewsAboutClient(@PathVariable Long idClient)
     {
         return reviewsRepository.findReviewsAboutClient(idClient);
+    }
+    @PutMapping("/addClientReview/{idMission}")
+    public Reviews createClientReviews(@Valid @RequestBody Reviews reviewRequest,@PathVariable Long idMission)
+    {
+        System.out.println(reviewRequest);
+        //Long id=reviewsRepository.getIdOfReviews(idFreelancer,idClient);
+
+        return reviewsRepository.findById(idMission).map(review->{
+            review.setCommentClient(reviewRequest.getCommentClient());
+            return reviewsRepository.save(review);
+        }).orElseThrow(() -> new ResourceNotFoundException("Mission with Id=  not found  "));
     }
 }

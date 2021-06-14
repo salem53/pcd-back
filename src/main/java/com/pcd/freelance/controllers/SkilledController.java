@@ -214,9 +214,9 @@ public class SkilledController {
   }
 
   @PutMapping("/skillValid/{idFreelancer}/{idSkill}")
-  public Skilled skillValid(@Valid @RequestBody Skilled skilledRequest,@PathVariable Long idFreelancer,@PathVariable Long idSkill)
+  public Skilled skillValid(@Valid @RequestBody String skilledRequest,@PathVariable Long idFreelancer,@PathVariable Long idSkill)
   {
-    //System.out.println(reviewRequest);
+    System.out.println("reviewRequest");
     IdSkilled id=this.skilledRepo.getIdOfSkilled(idFreelancer,idSkill);
 
     return skilledRepo.findById(id).map(skilled->{

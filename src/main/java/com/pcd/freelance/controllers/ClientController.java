@@ -22,7 +22,7 @@ import java.util.zip.Inflater;
 @RestController
 @RequestMapping({"/clients"})
 @CrossOrigin("http://localhost:4200")
-public class ClientController extends FreelancerController {
+public class ClientController  {
 
 
     @Autowired

@@ -31,7 +31,7 @@ public class Skilled {
   @Column(name="result")
   int result;
 
-  @JsonIgnore
+
   @Column(name="Validate")
   String validate;
 
